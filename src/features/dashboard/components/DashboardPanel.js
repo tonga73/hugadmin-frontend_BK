@@ -33,7 +33,7 @@ export function DashboardPanel() {
   const recordStatus = useSelector(selectRecordStatus);
 
   const UserTopBar = () => {
-    return <nav className="p-3 text-3xl">User</nav>;
+    return <nav className="p-3 text-3xl bg-green-500">User</nav>;
   };
 
   const SearchBar = () => {

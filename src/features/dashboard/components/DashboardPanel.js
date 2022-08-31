@@ -9,7 +9,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { v4 } from "node-uuid";
+import { generateKey } from "../../../utils/generateKey";
 
 import {
   getRecords,
@@ -75,7 +75,7 @@ export function DashboardPanel() {
             : records.map((record) => {
                 return (
                   <button
-                    key={v4()}
+                    key={generateKey(record.title)}
                     onClick={() => {
                       goToRecord(record.id);
                     }}
@@ -94,7 +94,7 @@ export function DashboardPanel() {
   }, []);
 
   return (
-    <div className="h-full flex flex-col gap-y-1.5">
+    <div className="h-full flex flex-col gap-y-1.5 bg-pink-500">
       {UserTopBar()}
       {SearchBar()}
       <Link

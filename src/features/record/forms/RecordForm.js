@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form";
 
 import { newRecord } from "../recordSlice";
 
-import { v4 } from "node-uuid";
-
 import { getLocations, selectLocations } from "../../location/locationSlice";
 
 export function RecordForm() {
@@ -49,9 +47,9 @@ export function RecordForm() {
   } = useForm();
   const onSubmit = (data) => dispatch(newRecord(data));
 
-  useEffect(() => {
-    dispatch(getLocations([]));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getLocations([]));
+  // }, []);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -86,7 +84,7 @@ export function RecordForm() {
           className="select select-bordered select-lg w-full max-w-xs"
         >
           {locations.map((location) => {
-            return <option key={v4()}>{location.name}</option>;
+            return <option>{location.name}</option>;
           })}
         </select>
         <label

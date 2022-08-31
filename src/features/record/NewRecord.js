@@ -7,7 +7,7 @@ export function NewRecord() {
   const dispatch = useDispatch();
   return (
     <div>
-      <h3>Crear expediente</h3>
+      <h3>Crear expedientesss</h3>
       <RecordForm />
     </div>
   );

@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams, useSearchParams } from "react-router-dom";
 
-import { v4 } from "node-uuid";
-
 import { selectRecords, setSelectedRecord } from "./recordSlice";
 
 export function Record() {
@@ -21,7 +19,7 @@ export function Record() {
       {records.map((record) => {
         if (record.id == recordID) {
           return (
-            <div key={v4()}>
+            <div>
               <div>{record.title}</div>
               <div>{record.order}</div>
               <div>{record.priority}</div>
@@ -29,6 +27,7 @@ export function Record() {
             </div>
           );
         }
+        return;
       })}
     </div>
   );

@@ -9,7 +9,6 @@
     "@testing-library/user-event": "^14.4.3",
     "axios": "^0.27.2",
     "daisyui": "^2.24.0",
-    "node-uuid": "^1.4.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",

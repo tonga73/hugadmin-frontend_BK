@@ -33,7 +33,7 @@ export function DashboardPanel() {
   const recordStatus = useSelector(selectRecordStatus);
 
   const UserTopBar = () => {
-    return <nav className="p-3 text-3xl bg-green-500">User</nav>;
+    return <nav className="p-3 text-3xl">User</nav>;
   };
 
   const SearchBar = () => {
@@ -94,7 +94,7 @@ export function DashboardPanel() {
   }, []);
 
   return (
-    <div className="h-full flex flex-col gap-y-1.5 bg-pink-500">
+    <div className="h-full flex flex-col gap-y-1.5">
       {UserTopBar()}
       {SearchBar()}
       <Link

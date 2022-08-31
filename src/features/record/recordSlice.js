@@ -17,7 +17,7 @@ export const getRecords = createAsyncThunk(
       return rejectWithValue(response.msg);
     }
 
-    return response;
+    return response.reverse();
   }
 );
 

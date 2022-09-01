@@ -5,19 +5,25 @@ import { useNavigate } from "react-router-dom";
 import { generateKey } from "../../utils/generateKey";
 
 import { getRecords, selectRecords, selectRecordsStatus } from "./recordsSlice";
+import { selectRecord } from "../record/recordSlice";
 
 export function Records() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const records = useSelector(selectRecords);
+  const record = useSelector(selectRecord);
   const recordStatus = useSelector(selectRecordsStatus);
 
   const goToRecord = (value) => {
-    navigate({
-      pathname: "/record",
-      search: `?id=${value}`,
-    });
+    if (record.id === value) {
+      navigate("");
+    } else {
+      navigate({
+        pathname: "/record",
+        search: `?id=${value}`,
+      });
+    }
   };
 
   useEffect(() => {

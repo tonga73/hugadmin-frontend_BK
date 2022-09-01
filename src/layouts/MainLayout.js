@@ -35,7 +35,7 @@ export default function MainLayout() {
         <div className="flex-shrink">
           <TopBar />
         </div>
-        <div className="w-[98%] h-full place-self-center shadow-secondary-content shadow-sm rounded-md">
+        <div className="w-[98%] h-full place-self-center shadow-primary-content shadow-sm rounded-md">
           <Outlet />
         </div>
       </div>

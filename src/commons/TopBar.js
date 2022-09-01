@@ -22,9 +22,7 @@ export function TopBar() {
           Editar
         </button>
       </div>
-      <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
-      </div>
+      <div className="flex-1"></div>
       <div className="flex-none gap-x-1">
         <button className="btn btn-sm btn-outline btn-ghost">
           <svg

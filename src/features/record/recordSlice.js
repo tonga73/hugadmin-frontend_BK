@@ -5,21 +5,7 @@ import { fetchNewRecord, fetchGetRecords } from "./recordAPI";
 const initialState = {
   status: "",
   record: {},
-  records: [],
 };
-
-export const getRecords = createAsyncThunk(
-  "records/fetchGetRecords",
-  async ({ rejectWithValue }) => {
-    const response = await fetchGetRecords();
-
-    if (response.status === "error") {
-      return rejectWithValue(response.msg);
-    }
-
-    return response.reverse();
-  }
-);
 
 export const newRecord = createAsyncThunk(
   "records/fetchNewRecord",
@@ -41,19 +27,6 @@ export const recordSlice = createSlice({
     setSelectedRecord: (state, action) => {
       state.record = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getRecords.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getRecords.fulfilled, (state, action) => {
-        state.status = "success";
-        state.records = action.payload;
-      })
-      .addCase(getRecords.rejected, (state, action) => {
-        state.status = "error";
-      });
   },
 });
 

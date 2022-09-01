@@ -4,8 +4,6 @@ import { Routes, Route } from "react-router-dom";
 // LAYOUTS
 import MainLayout from "./layouts/MainLayout";
 
-import Dashboard from "./features/dashboard/Dashboard";
-
 import { Record } from "./features/record/Record";
 import { NewRecord } from "./features/record/NewRecord";
 

@@ -47,9 +47,9 @@ export function RecordForm() {
   } = useForm();
   const onSubmit = (data) => dispatch(newRecord(data));
 
-  useEffect(() => {
-    dispatch(getLocations([]));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getLocations([]));
+  // }, []);
 
   return (
     <>

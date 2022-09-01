@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useParams, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useSearchParams } from "react-router-dom";
 
 import { generateKey } from "../../utils/generateKey";
 
@@ -9,7 +9,6 @@ import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
 
 export function Record() {
   const dispatch = useDispatch();
-  const params = useParams();
 
   var [query, setQuery] = useSearchParams();
 

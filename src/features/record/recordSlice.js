@@ -1,14 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { fetchNewRecord, fetchGetRecords } from "./recordAPI";
+import { fetchNewRecord, fetchGetRecords, fetchGetRecord } from "./recordAPI";
 
 const initialState = {
   status: "",
   record: {},
 };
 
+export const getRecord = createAsyncThunk(
+  "record/fetchGetRecord",
+  async (record, { rejectWithValue }) => {
+    const response = await fetchGetRecord(record);
+
+    if (response.status === "error") {
+      return rejectWithValue(response.msg);
+    }
+
+    return response;
+  }
+);
+
 export const newRecord = createAsyncThunk(
-  "records/fetchNewRecord",
+  "record/fetchNewRecord",
   async (record, { rejectWithValue }) => {
     const response = await fetchNewRecord(record);
 
@@ -23,17 +36,23 @@ export const newRecord = createAsyncThunk(
 export const recordSlice = createSlice({
   name: "record",
   initialState,
-  reducers: {
-    setSelectedRecord: (state, action) => {
-      state.record = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getRecord.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getRecord.fulfilled, (state, action) => {
+        state.status = "success";
+        state.record = action.payload;
+      })
+      .addCase(getRecord.rejected, (state, action) => {
+        state.status = "error";
+      });
   },
 });
 
-export const { setSelectedRecord } = recordSlice.actions;
-
 export const selectRecordStatus = (state) => state.record.status;
 
-export const selectRecords = (state) => state.record.records;
+export const selectRecord = (state) => state.record.record;
 
 export default recordSlice.reducer;

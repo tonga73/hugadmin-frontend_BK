@@ -2,7 +2,7 @@ import React from "react";
 
 export function TopBar() {
   return (
-    <div className="navbar gap-x-1.5 bg-base-100">
+    <div className="navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100">
       <div className="flex-none">
         <button className="btn btn-sm btn-outline btn-info">
           <svg

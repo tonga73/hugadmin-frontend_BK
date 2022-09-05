@@ -16,14 +16,10 @@ export function Records() {
   const recordStatus = useSelector(selectRecordsStatus);
 
   const goToRecord = (value) => {
-    if (record.id === value) {
-      navigate("");
-    } else {
-      navigate({
-        pathname: "/record",
-        search: `?id=${value}`,
-      });
-    }
+    navigate({
+      pathname: "/record",
+      search: `?id=${value}`,
+    });
   };
 
   useEffect(() => {

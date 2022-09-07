@@ -7,6 +7,7 @@ import { generateKey } from "../../utils/generateKey";
 import {
   getRecords,
   selectRecords,
+  selectFilteredRecords,
   selectRecordsStatus,
   setRecordsStatus,
 } from "./recordsSlice";
@@ -16,7 +17,7 @@ export function Records() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const records = useSelector(selectRecords);
+  const records = useSelector(selectFilteredRecords);
   const record = useSelector(selectRecord);
   const recordsStatus = useSelector(selectRecordsStatus);
   const recordStatus = useSelector(selectRecordsStatus);

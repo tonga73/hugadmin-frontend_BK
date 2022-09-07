@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import Modal from "../../commons/Modal";
+
 import { Input, Select, Form } from "../../commons/Form";
 
 import {
@@ -12,7 +14,7 @@ import {
 
 import { newRecord } from "./recordSlice";
 
-export function NewRecord() {
+export default function NewRecord() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +29,7 @@ export function NewRecord() {
     };
   }
 
-  const districts = useSelector(selectDistricts).map(selectProps("name"));
+  const districtsNames = useSelector(selectDistricts).map(selectProps("name"));
   const districtsStatus = useSelector(selectDistrictsStatus);
 
   const contentPriority = [
@@ -101,11 +103,13 @@ export function NewRecord() {
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
         />
 
-        <Select
+        {/* <Select
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
-          name="districts"
-          options={districts}
-        />
+          name="district"
+          options={districtsNames}
+        /> */}
+
+        <Modal />
 
         <input
           type="submit"

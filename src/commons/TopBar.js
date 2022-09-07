@@ -1,6 +1,15 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+
+import { selectRecord, removeRecord } from "../features/record/recordSlice";
 
 export function TopBar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const selectedRecordId = useSelector(selectRecord).id;
+
   return (
     <div className="navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100">
       <div className="flex-none">
@@ -22,7 +31,26 @@ export function TopBar() {
           Editar
         </button>
       </div>
-      <div className="flex-1"></div>
+      <div className="flex-1 px-3">
+        <div className="tooltip tooltip-bottom" data-tip="Estadísticas">
+          <Link to="/" className="btn btn-sm btn-square btn-ghost">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+          </Link>
+        </div>
+      </div>
       <div className="flex-none gap-x-1">
         <button className="btn btn-sm btn-outline btn-ghost">
           <svg
@@ -41,7 +69,10 @@ export function TopBar() {
           </svg>
           Archivar
         </button>
-        <button className="btn btn-sm btn-outline btn-error">
+        <button
+          onClick={() => dispatch(removeRecord(selectedRecordId))}
+          className="btn btn-sm btn-outline btn-error"
+        >
           <svg
             className="w-6 h-6"
             fill="none"

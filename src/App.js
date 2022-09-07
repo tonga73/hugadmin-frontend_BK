@@ -4,14 +4,16 @@ import { Routes, Route } from "react-router-dom";
 // LAYOUTS
 import MainLayout from "./layouts/MainLayout";
 
-import { Record } from "./features/record/Record";
-import { NewRecord } from "./features/record/NewRecord";
+import Stats from "./features/stats/Stats";
+import Record from "./features/record/Record";
+import NewRecord from "./features/record/NewRecord";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route path=":id" element={<Record />} />
+        <Route index element={<Stats />} />
+        <Route path="record" element={<Record />} />
         <Route path="new-record" element={<NewRecord />} />
         {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />

@@ -56,7 +56,10 @@ export default function Tracing({ tracing: { name, id } }) {
           </li>
           <li>
             {/* REMOVE TRACING BUTTON */}
-            <a onClick={() => dispatch(removeTracing(id))}>
+            <a
+              onClick={() => dispatch(removeTracing(id))}
+              className="hover:bg-error hover:bg-opacity-90"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"

@@ -29,7 +29,7 @@ export const removeTracing = createAsyncThunk(
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setTracing({ status: "success", tracing: response }));
+    dispatch(setTracing({ status: "deleted", tracing: response }));
   }
 );
 

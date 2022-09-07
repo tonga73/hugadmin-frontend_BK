@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import { generateKey } from "../../utils/generateKey";
 
-import { getRecords, selectRecords, selectRecordsStatus } from "./recordsSlice";
+import {
+  getRecords,
+  selectRecords,
+  selectRecordsStatus,
+  setRecordsStatus,
+} from "./recordsSlice";
 import { selectRecord } from "../record/recordSlice";
 
 export function Records() {
@@ -13,6 +18,7 @@ export function Records() {
 
   const records = useSelector(selectRecords);
   const record = useSelector(selectRecord);
+  const recordsStatus = useSelector(selectRecordsStatus);
   const recordStatus = useSelector(selectRecordsStatus);
 
   const goToRecord = (value) => {
@@ -23,8 +29,20 @@ export function Records() {
   };
 
   useEffect(() => {
-    dispatch(getRecords({}));
-  }, []);
+    if (recordStatus === "created") {
+      navigate({
+        pathname: "/record",
+        search: `?id=${record.id}`,
+      });
+      dispatch(getRecords({}));
+    }
+  }, [recordStatus]);
+
+  useEffect(() => {
+    if (recordsStatus !== "loading") {
+      dispatch(setRecordsStatus({ status: "" }));
+    }
+  }, [recordsStatus]);
 
   return (
     <ul className="menu bg-base-100 w-[97%] self-center rounded-box">
@@ -34,12 +52,12 @@ export function Records() {
           : records.map((record) => {
               return (
                 <button
-                  key={generateKey(record.title)}
+                  key={generateKey(record.id)}
                   onClick={() => {
                     goToRecord(record.id);
                   }}
                 >
-                  {record.order} | {record.title}
+                  {record.order} | {`${record.title.substring(0, 30)} ...`}
                 </button>
               );
             })}

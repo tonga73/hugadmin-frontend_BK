@@ -23,6 +23,11 @@ export const getRecords = createAsyncThunk(
 export const recordsSlice = createSlice({
   name: "records",
   initialState,
+  reducers: {
+    setRecordsStatus: (state, action) => {
+      state.status = action.payload.status;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getRecords.pending, (state) => {
@@ -37,6 +42,8 @@ export const recordsSlice = createSlice({
       });
   },
 });
+
+export const { setRecordsStatus } = recordsSlice.actions;
 
 export const selectRecordsStatus = (state) => state.records.status;
 

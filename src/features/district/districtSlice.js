@@ -9,8 +9,8 @@ const initialState = {
 
 export const getDistrict = createAsyncThunk(
   "district/fetchGetDistrict",
-  async (district, { rejectWithValue }) => {
-    const response = await fetchGetDistrict(district);
+  async (districtId, { rejectWithValue }) => {
+    const response = await fetchGetDistrict(districtId);
 
     if (response.status === "error") {
       return rejectWithValue(response.msg);

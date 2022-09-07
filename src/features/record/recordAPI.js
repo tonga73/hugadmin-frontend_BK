@@ -21,7 +21,7 @@ export function fetchNewRecord(req) {
   return axiosClient
     .post("/record", req)
     .then(({ data }) => {
-      console.log(data);
+      return data;
     })
     .catch((err) => {
       const { msg } = err.response.data;
@@ -50,4 +50,21 @@ export function fetchEditRecord({ id, req }) {
   //     };
   //     return res;
   //   });
+}
+
+export function fetchDeleteRecord(req) {
+  return axiosClient
+    .delete(`/record/${req}`)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((err) => {
+      const { msg } = err.response.data;
+      console.log(err);
+      const res = {
+        status: "error",
+        msg,
+      };
+      return res;
+    });
 }

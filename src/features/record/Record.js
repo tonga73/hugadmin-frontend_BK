@@ -1,24 +1,26 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useSearchParams, useNavigate } from "react-router-dom";
 
 import { Input, Select, Form } from "../../commons/Form";
 
 import { generateKey } from "../../utils/generateKey";
 
-import { getRecord, selectRecord } from "./recordSlice";
+import { getRecord, selectRecord, selectRecordStatus } from "./recordSlice";
 import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
 import { getDistrict, selectDistrict } from "../district/districtSlice";
 import { selectTracingStatus, setTracing } from "../tracing/tracingSlice";
 
 import Tracings from "../tracings/Tracings";
 
-export function Record() {
+export default function Record() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   var [query, setQuery] = useSearchParams();
 
   const record = useSelector(selectRecord);
+  const recordStatus = useSelector(selectRecordStatus);
   const recordIdToString = query.toString().replace("id=", "");
 
   const tracingStatus = useSelector(selectTracingStatus);
@@ -48,9 +50,14 @@ export function Record() {
 
   useEffect(() => {
     dispatch(getRecord(recordIdToString));
-    dispatch(getDistrict(recordIdToString));
     dispatch(setTracing({ status: "", tracing: {} }));
   }, [query, tracingStatus]);
+
+  useEffect(() => {
+    if (recordStatus === "success" && record.districtId !== null) {
+      dispatch(getDistrict(record.districtId));
+    }
+  }, [recordStatus]);
 
   return (
     <>
@@ -79,7 +86,13 @@ export function Record() {
                 {record.order}
               </div>
               <div className="text-5xl font-extrabold text-neutral-focus">
-                {record.title}
+                {record.title.substring(0, 53)}
+                <div
+                  className="tooltip tooltip-bottom cursor-default z-30 text-left"
+                  data-tip={record.title}
+                >
+                  ...
+                </div>
               </div>
               <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
                 <div className="card-body flex-row items-center">

@@ -9,6 +9,9 @@ import { generateKey } from "../../utils/generateKey";
 import { getRecord, selectRecord } from "./recordSlice";
 import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
 import { getDistrict, selectDistrict } from "../district/districtSlice";
+import { selectTracingStatus, setTracing } from "../tracing/tracingSlice";
+
+import Tracings from "../tracings/Tracings";
 
 export function Record() {
   const dispatch = useDispatch();
@@ -17,6 +20,8 @@ export function Record() {
 
   const record = useSelector(selectRecord);
   const recordIdToString = query.toString().replace("id=", "");
+
+  const tracingStatus = useSelector(selectTracingStatus);
 
   const district = useSelector(selectDistrict);
 
@@ -44,7 +49,8 @@ export function Record() {
   useEffect(() => {
     dispatch(getRecord(recordIdToString));
     dispatch(getDistrict(recordIdToString));
-  }, [query]);
+    dispatch(setTracing({ status: "", tracing: {} }));
+  }, [query, tracingStatus]);
 
   return (
     <>
@@ -57,22 +63,22 @@ export function Record() {
                 onSubmit={onSubmit}
               >
                 <Select
-                  styles="input input-bordered input-lg uppercase w-full"
+                  styles="input input-bordered input-md font-bold uppercase w-full"
                   defaultValue={record.priority}
                   name="priority"
                   options={contentPriority}
                 />
                 <Select
-                  styles="input input-bordered input-lg uppercase w-full"
+                  styles="input input-bordered input-md font-bold uppercase w-full"
                   defaultValue={record.status}
                   name="status"
                   options={contentStatus}
                 />
               </Form>
-              <div className="text-5xl font-bold text-neutral-focus">
+              <div className="text-5xl font-extrabold text-neutral-focus">
                 {record.order}
               </div>
-              <div className="text-5xl font-bold text-neutral-focus">
+              <div className="text-5xl font-extrabold text-neutral-focus">
                 {record.title}
               </div>
               <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
@@ -98,58 +104,7 @@ export function Record() {
             </div>
           </div>
           <div className="w-1/3 flex flex-col gap-y-1.5">
-            {record.tracings.map((tracing) => {
-              return (
-                <div
-                  key={generateKey(tracing.name)}
-                  className="card card-compact bg-secondary-content shadow-xl"
-                >
-                  <div className="card-body">
-                    <h2 className="card-title text-right">{tracing.name}</h2>
-                  </div>
-                  <div className="card-actions">
-                    <ul className="menu menu-horizontal menu-compact justify-between w-full rounded-box">
-                      <li>
-                        <a>
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                            ></path>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a>
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
+            <Tracings />
           </div>
         </div>
       )}

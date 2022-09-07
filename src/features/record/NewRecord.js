@@ -104,7 +104,6 @@ export function NewRecord() {
         <Select
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
           name="districts"
-          required
           options={districts}
         />
 

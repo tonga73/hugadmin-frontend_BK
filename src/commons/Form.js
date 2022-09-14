@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 
 export function Form({ defaultValues, children, onSubmit, styles, id }) {
   const methods = useForm({ defaultValues });
-  const { handleSubmit, errors } = methods;
+  const { handleSubmit, errors, watch } = methods;
 
   return (
     <form
       id={id}
-      className={!!styles && styles}
+      className={(!!styles && styles) || ""}
       onSubmit={handleSubmit(onSubmit)}
     >
       {React.Children.map(children, (child) => {

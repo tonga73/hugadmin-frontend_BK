@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getRecords } from "../features/records/recordsSlice";
+import { getRecords, selectRecords } from "../features/records/recordsSlice";
 
 export function SidePanel({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
+
+  const records = useSelector(selectRecords);
   useEffect(() => {
     dispatch(getRecords({}));
   }, []);

@@ -35,21 +35,20 @@ export function fetchNewRecord(req) {
 }
 
 export function fetchEditRecord({ id, req }) {
-  console.log(req);
-  // return axiosClient
-  //   .patch(`/record/${req}`)
-  //   .then(({ data }) => {
-  //     console.log(data);
-  //   })
-  //   .catch((err) => {
-  //     const { msg } = err.response.data;
-  //     console.log(err);
-  //     const res = {
-  //       status: "error",
-  //       msg,
-  //     };
-  //     return res;
-  //   });
+  return axiosClient
+    .patch(`/record/${id}`, req)
+    .then(({ data }) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      const { msg } = err.response.data;
+      console.log(err);
+      const res = {
+        status: "error",
+        msg,
+      };
+      return res;
+    });
 }
 
 export function fetchDeleteRecord(req) {

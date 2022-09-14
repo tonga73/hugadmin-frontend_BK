@@ -7,8 +7,10 @@ import {
   fetchDeleteRecord,
 } from "./recordAPI";
 
+import { contentPriority, contentStatus } from "../../utils/recordColors";
+
 const initialState = {
-  status: "",
+  queryStatus: "",
   record: {},
 };
 
@@ -17,7 +19,7 @@ export const getRecord = createAsyncThunk(
   async (record, { rejectWithValue }) => {
     const response = await fetchGetRecord(record);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
@@ -30,11 +32,11 @@ export const newRecord = createAsyncThunk(
   async (record, { rejectWithValue, dispatch }) => {
     const response = await fetchNewRecord(record);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setRecord({ status: "created", record: response }));
+    dispatch(setRecord({ queryStatus: "created", record: response }));
   }
 );
 
@@ -43,11 +45,11 @@ export const removeRecord = createAsyncThunk(
   async (recordId, { rejectWithValue, dispatch }) => {
     const response = await fetchDeleteRecord(recordId);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setRecord({ status: "deleted", record: response }));
+    dispatch(setRecord({ queryStatus: "deleted", record: response }));
   }
 );
 
@@ -56,7 +58,7 @@ export const editRecord = createAsyncThunk(
   async (record, { rejectWithValue }) => {
     const response = await fetchEditRecord(record);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
@@ -69,28 +71,28 @@ export const recordSlice = createSlice({
   initialState,
   reducers: {
     setRecord: (state, action) => {
-      state.status = action.payload.status;
+      state.queryStatus = action.payload.queryStatus;
       state.record = action.payload.record;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getRecord.pending, (state) => {
-        state.status = "loading";
+        state.queryStatus = "loading";
       })
       .addCase(getRecord.fulfilled, (state, action) => {
-        state.status = "success";
+        state.queryStatus = "success";
         state.record = action.payload;
       })
       .addCase(getRecord.rejected, (state, action) => {
-        state.status = "error";
+        state.queryStatus = "error";
       });
   },
 });
 
 export const { setRecord } = recordSlice.actions;
 
-export const selectRecordStatus = (state) => state.record.status;
+export const selectRecordQueryStatus = (state) => state.record.queryStatus;
 
 export const selectRecord = (state) => state.record.record;
 

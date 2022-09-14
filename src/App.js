@@ -13,7 +13,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Stats />} />
-        <Route path="record" element={<Record />} />
+        <Route path="record/:id" element={<Record />} />
         <Route path="new-record" element={<NewRecord />} />
         {/* <Route path="teams" element={<Teams />}>
           <Route path=":teamId" element={<Team />} />

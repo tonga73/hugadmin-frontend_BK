@@ -5,7 +5,7 @@ import { fetchGetTracings } from "./tracingsAPI";
 import { getRecord } from "../record/recordSlice";
 
 const initialState = {
-  status: "",
+  queryStatus: "",
   tracings: [],
 };
 
@@ -15,14 +15,14 @@ export const tracingsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getRecord.pending, (state) => {
-        state.status = "loading";
+        state.queryStatus = "loading";
       })
       .addCase(getRecord.fulfilled, (state, action) => {
-        state.status = "success";
+        state.queryStatus = "success";
         state.tracings = action.payload.tracings;
       })
       .addCase(getRecord.rejected, (state, action) => {
-        state.status = "error";
+        state.queryStatus = "error";
       });
   },
 });

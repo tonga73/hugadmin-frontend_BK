@@ -8,10 +8,14 @@ import {
   getRecords,
   selectRecords,
   selectFilteredRecords,
-  selectRecordsStatus,
-  setRecordsStatus,
+  selectRecordsQueryStatus,
+  setRecordsQueryStatus,
 } from "./recordsSlice";
-import { selectRecord } from "../record/recordSlice";
+import {
+  selectRecord,
+  selectRecordQueryStatus,
+  setRecord,
+} from "../record/recordSlice";
 
 export function Records() {
   const dispatch = useDispatch();
@@ -19,36 +23,33 @@ export function Records() {
 
   const records = useSelector(selectFilteredRecords);
   const record = useSelector(selectRecord);
-  const recordsStatus = useSelector(selectRecordsStatus);
-  const recordStatus = useSelector(selectRecordsStatus);
+  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
+  const recordQueryStatus = useSelector(selectRecordQueryStatus);
 
   const goToRecord = (value) => {
-    navigate({
-      pathname: "/record",
-      search: `?id=${value}`,
-    });
+    navigate(`record/${value}`);
   };
 
   useEffect(() => {
-    if (recordStatus === "created") {
+    if (recordQueryStatus === "created") {
       navigate({
         pathname: "/record",
         search: `?id=${record.id}`,
       });
       dispatch(getRecords({}));
     }
-  }, [recordStatus]);
+  }, [recordQueryStatus]);
 
   useEffect(() => {
-    if (recordsStatus !== "loading") {
-      dispatch(setRecordsStatus({ status: "" }));
+    if (recordsQueryStatus !== "loading") {
+      dispatch(setRecordsQueryStatus({ queryStatus: "" }));
     }
-  }, [recordsStatus]);
+  }, [recordsQueryStatus]);
 
   return (
     <ul className="menu bg-base-100 w-[97%] self-center rounded-box">
       <li className="bordered">
-        {recordStatus === "loading"
+        {recordQueryStatus === "loading"
           ? "Loading..."
           : records.map((record) => {
               return (

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchGetRecords } from "./recordsAPI";
 
 const initialState = {
-  status: "",
+  queryStatus: "",
   records: [],
   filteredRecords: [],
 };
@@ -13,7 +13,7 @@ export const getRecords = createAsyncThunk(
   async ({ rejectWithValue }) => {
     const response = await fetchGetRecords();
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
@@ -25,8 +25,8 @@ export const recordsSlice = createSlice({
   name: "records",
   initialState,
   reducers: {
-    setRecordsStatus: (state, action) => {
-      state.status = action.payload.status;
+    setRecordsQueryStatus: (state, action) => {
+      state.queryStatus = action.payload.queryStatus;
     },
     setFilteredRecords: (state, action) => {
       state.filteredRecords = action.payload;
@@ -35,22 +35,23 @@ export const recordsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getRecords.pending, (state) => {
-        state.status = "loading";
+        state.queryStatus = "loading";
       })
       .addCase(getRecords.fulfilled, (state, action) => {
-        state.status = "success";
+        state.queryStatus = "success";
         state.records = action.payload;
         state.filteredRecords = action.payload;
       })
       .addCase(getRecords.rejected, (state, action) => {
-        state.status = "error";
+        state.queryStatus = "error";
       });
   },
 });
 
-export const { setRecordsStatus, setFilteredRecords } = recordsSlice.actions;
+export const { setRecordsQueryStatus, setFilteredRecords } =
+  recordsSlice.actions;
 
-export const selectRecordsStatus = (state) => state.records.status;
+export const selectRecordsQueryStatus = (state) => state.records.queryStatus;
 
 export const selectRecords = (state) => state.records.records;
 

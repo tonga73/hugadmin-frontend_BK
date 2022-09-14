@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchNewTracing, fetchDeleteTracing } from "./tracingAPI";
 
 const initialState = {
-  status: "",
+  queryStatus: "",
   tracing: {},
 };
 
@@ -12,11 +12,11 @@ export const newTracing = createAsyncThunk(
   async (tracing, { rejectWithValue, dispatch }) => {
     const response = await fetchNewTracing(tracing);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setTracing({ status: "success", tracing: response }));
+    dispatch(setTracing({ queryStatus: "success", tracing: response }));
   }
 );
 
@@ -25,11 +25,11 @@ export const removeTracing = createAsyncThunk(
   async (tracingId, { rejectWithValue, dispatch }) => {
     const response = await fetchDeleteTracing(tracingId);
 
-    if (response.status === "error") {
+    if (response.queryStatus === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setTracing({ status: "deleted", tracing: response }));
+    dispatch(setTracing({ queryStatus: "deleted", tracing: response }));
   }
 );
 
@@ -38,7 +38,7 @@ export const tracingSlice = createSlice({
   initialState,
   reducers: {
     setTracing: (state, action) => {
-      state.status = action.payload.status;
+      state.queryStatus = action.payload.queryStatus;
       state.tracing = action.payload.tracing;
     },
   },
@@ -46,6 +46,6 @@ export const tracingSlice = createSlice({
 
 export const { setTracing } = tracingSlice.actions;
 
-export const selectTracingStatus = (state) => state.tracing.status;
+export const selectTracingQueryStatus = (state) => state.tracing.queryStatus;
 
 export default tracingSlice.reducer;

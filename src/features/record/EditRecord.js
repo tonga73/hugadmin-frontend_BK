@@ -4,7 +4,6 @@ import { Link, Outlet, useSearchParams } from "react-router-dom";
 
 import { Input, Select, Form } from "../../commons/Form";
 
-import { generateKey } from "../../utils/generateKey";
 
 import { getRecord, selectRecord } from "./recordSlice";
 import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
@@ -69,7 +68,6 @@ export function EditRecord() {
     <>
       {record.id == recordIdToString && (
         <div
-          key={generateKey(record.order)}
           className="px-3 py-1.5 flex flex-col gap-y-3"
         >
           <Form

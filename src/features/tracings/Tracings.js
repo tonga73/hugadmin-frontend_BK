@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Outlet, useSearchParams } from "react-router-dom";
 
-import { generateKey } from "../../utils/generateKey";
-
 import { getTracings, selectTracings } from "./tracingsSlice";
 import { newTracing } from "../tracing/tracingSlice";
 import { selectRecord } from "../record/recordSlice";
@@ -43,8 +41,8 @@ export default function Tracings() {
         onSubmit={onSubmit}
         isShown={isCreating}
       />
-      {tracings.map((tracing) => (
-        <Tracing tracing={tracing} key={generateKey(tracing.name)} />
+      {tracings.map((tracing, index) => (
+        <Tracing tracing={tracing} key={index} />
       ))}
     </div>
   );

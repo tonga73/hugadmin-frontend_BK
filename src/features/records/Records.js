@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { generateKey } from "../../utils/generateKey";
-
 import {
   getRecords,
   selectRecords,
@@ -51,10 +49,10 @@ export function Records() {
       <li className="bordered">
         {recordQueryStatus === "loading"
           ? "Loading..."
-          : records.map((record) => {
+          : records.map((record,index) => {
               return (
                 <button
-                  key={generateKey(record.id)}
+                  key={index}
                   onClick={() => {
                     goToRecord(record.id);
                   }}

@@ -161,7 +161,7 @@ export default function Record() {
               <div className="text-5xl font-extrabold text-neutral-focus">
                 {record.order}
               </div>
-              <div className="text-5xl font-extrabold text-neutral-focus">
+              <div className="text-5xl font-extrabold text-neutral-focus text-opacity-60">
                 {record.title.substring(0, 53)}
                 <span
                   className="tooltip tooltip-bottom cursor-default z-30 text-left"

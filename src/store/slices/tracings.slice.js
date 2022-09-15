@@ -27,7 +27,7 @@ export const tracingsSlice = createSlice({
       })
       .addCase(getRecord.fulfilled, (state, action) => {
         state.queryStatus = "success";
-        state.tracings = action.payload.tracings;
+        state.tracings = action.payload.tracings.slice().reverse();
       })
       .addCase(getRecord.rejected, (state, action) => {
         state.queryStatus = "error";

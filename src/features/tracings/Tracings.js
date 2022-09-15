@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { Transition } from "@headlessui/react";
+
 import {
   selectTracings,
   setTracingsQueryStatus,
@@ -39,6 +41,12 @@ export default function Tracings() {
       setIsCreating(false);
       dispatch(setTracingsQueryStatus(""));
       dispatch(getRecord(record.id));
+    }
+  }, [tracingsQueryStatus]);
+
+  useEffect(() => {
+    if (tracingsQueryStatus === "success") {
+      dispatch(setTracingsQueryStatus(""));
     }
   }, [tracingsQueryStatus]);
 

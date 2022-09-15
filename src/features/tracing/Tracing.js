@@ -1,35 +1,59 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import { Transition } from "@headlessui/react";
+
+import { selectTracingsQueryStatus } from "../../store/slices/tracings.slice";
+
 import { removeTracing } from "../../store/actions/tracings.actions";
 
 import { Form, Input } from "../../commons/Form";
 
 export function CreateTracingForm({ isShown, onSubmit, id, onDelete }) {
   return (
-    <>
-      {!!isShown && (
-        <div className="card card-compact bg-secondary-focus shadow-xl">
-          <div className="card-body">
-            <Form id={id} onSubmit={onSubmit} styles="card-title text-right">
-              <Input
-                required
-                type="text"
-                name="name"
-                styles="text-right input input-sm focus:bg-primary"
-              />
-            </Form>
-          </div>
+    <Transition
+      show={isShown}
+      appear
+      enter="transition ease-in-out duration-500 transform"
+      enterFrom="translate-x-full opacity-0"
+      enterTo="translate-x-0 opacity-100"
+      leave="transition ease-in-out duration-500 transform"
+      leaveFrom="translate-x-0 opacity-100"
+      leaveTo="translate-x-full opacity-0"
+    >
+      <div className="card card-compact bg-secondary-focus shadow-xl">
+        <div className="card-body">
+          <Form id={id} onSubmit={onSubmit} styles="card-title text-right">
+            <Input
+              required
+              type="text"
+              name="name"
+              styles="text-right input input-sm focus:bg-primary"
+            />
+          </Form>
         </div>
-      )}
-    </>
+      </div>
+    </Transition>
   );
 }
 
 export default function Tracing({ tracing: { name, id } }) {
   const dispatch = useDispatch();
+
+  const tracingsQueryStatus = useSelector(selectTracingsQueryStatus);
   return (
-    <div className="card card-compact bg-secondary-content shadow-xl">
+    <Transition
+      className="card card-compact bg-secondary-content shadow-xl"
+      as="div"
+      show={tracingsQueryStatus === ""}
+      appear
+      enter="transition-opacity ease-linear duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity ease-linear duration-75"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
       <div className="card-body">
         <h2 className="card-title text-right">{name}</h2>
       </div>
@@ -78,6 +102,6 @@ export default function Tracing({ tracing: { name, id } }) {
           </li>
         </ul>
       </div>
-    </div>
+    </Transition>
   );
 }

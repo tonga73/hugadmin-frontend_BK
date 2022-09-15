@@ -18,7 +18,7 @@ export const recordsSlice = createSlice({
       state.record = action.payload.record;
     },
     setRecordsQueryStatus: (state, action) => {
-      state.queryStatus = action.payload.queryStatus;
+      state.queryStatus = action.payload;
     },
     setFilteredRecords: (state, action) => {
       state.filteredRecords = action.payload;

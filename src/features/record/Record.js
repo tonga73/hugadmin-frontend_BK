@@ -5,7 +5,10 @@ import { useParams } from "react-router-dom";
 import { Select, Form } from "../../commons/Form";
 
 import { getRecord, editRecord } from "../../store/actions/records.actions";
-import { selectRecord } from "../../store/slices/records.slice";
+import {
+  selectRecord,
+  selectRecordsQueryStatus,
+} from "../../store/slices/records.slice";
 
 import Tracings from "../tracings/Tracings";
 
@@ -14,6 +17,7 @@ export default function Record() {
   const params = useParams();
   const { id } = params;
 
+  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
   const record = useSelector(selectRecord);
 
   const [selectedStatus, setSelectedStatus] = useState();
@@ -116,8 +120,12 @@ export default function Record() {
 
   return (
     <>
-      {!!Object.keys(record).length && (
-        <div className="flex gap-x-1.5 h-full">
+      {!!Object.keys(record).length ? (
+        <div
+          className={`flex gap-x-1.5 h-full ${
+            Number(id) !== record.id && "animate-pulse"
+          }`}
+        >
           <div className="w-2/3 h-full">
             <div className="flex flex-col gap-y-5 p-1.5 bg-base-content rounded-md">
               <Form styles="form-control grid grid-cols-2 gap-3">
@@ -181,6 +189,13 @@ export default function Record() {
           <div className="w-1/3 flex flex-col gap-y-1.5">
             <Tracings />
           </div>
+        </div>
+      ) : (
+        <div className="h-full flex justify-center items-center">
+          <div
+            className="radial-progress animate-spin opacity-50"
+            style={{ "--value": 70 }}
+          ></div>
         </div>
       )}
     </>

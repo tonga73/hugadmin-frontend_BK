@@ -20,7 +20,7 @@ export function SidePanel({ children }) {
     if (recordsQueryStatus === "success") {
       dispatch(setRecordsQueryStatus(""));
     }
-  }, [recordsQueryStatus]);
+  }, [recordsQueryStatus, dispatch]);
 
   return <div className="h-full flex flex-col gap-y-1.5">{children}</div>;
 }

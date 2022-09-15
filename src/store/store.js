@@ -5,15 +5,13 @@ import recordsSlice from "./slices/records.slice";
 
 import tracingsSlice from "./slices/tracings.slice";
 
-import districtSlice from "../features/district/districtSlice";
-import districtsSlice from "../features/districts/districtsSlice";
+import districtsSlice from "./slices/districts.slice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     records: recordsSlice,
     tracings: tracingsSlice,
-    district: districtSlice,
     districts: districtsSlice,
   },
 });

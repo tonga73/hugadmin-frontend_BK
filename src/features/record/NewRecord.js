@@ -2,44 +2,41 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import Modal from "../../commons/Modal";
-
 import { Input, Select, Form } from "../../commons/Form";
 
 import {
+  setRecord,
   selectColorsPriority,
   selectColorsStatus,
 } from "../../store/slices/records.slice";
+import { selectDistricts } from "../../store/slices/districts.slice";
 
 import { newRecord } from "../../store/actions/records.actions";
+import { getDistricts } from "../../store/actions/districts.actions";
 
 export default function NewRecord() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => dispatch(newRecord(data));
-
   const contentPriority = useSelector(selectColorsPriority).map((e) => e.name);
   const contentStatus = useSelector(selectColorsStatus).map((e) => e.name);
 
-  const ModalButton = () => {
-    return (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-        ></path>
-      </svg>
+  const districtsNames = useSelector(selectDistricts);
+
+  const onSubmit = (data) => {
+    // Buscar ID del District por Nombre
+    const district = districtsNames.find(
+      (district) => district.name === data.districtId
     );
+    data.districtId = district.id;
+
+    dispatch(newRecord(data));
   };
+
+  useEffect(() => {
+    dispatch(getDistricts({}));
+    dispatch(setRecord({ queryStatus: "creating", record: {} }));
+  }, [dispatch]);
 
   return (
     <div className="px-3 py-1.5 flex flex-col gap-y-3">
@@ -65,61 +62,37 @@ export default function NewRecord() {
       <h3 className="text-xl font-bold uppercase">Crear expediente</h3>
       <Form styles="form-control grid grid-cols-2 gap-3" onSubmit={onSubmit}>
         <Select
+          required
           styles="input input-bordered input-lg w-full"
           name="priority"
           options={contentPriority}
         />
         <Select
+          required
           styles="input input-bordered input-lg w-full"
           name="status"
           options={contentStatus}
         />
         <Input
-          name="order"
           required
+          name="order"
           placeholder="----/----"
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
         />
         <Input
-          name="title"
           required
+          name="title"
           placeholder="Carátula del Expediente"
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
         />
 
-        {/* <Select
+        <Select
+          required
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
-          name="district"
-          options={districtsNames}
-        /> */}
-
-        <Modal
-          htmlFor="my-modal-6"
-          modalAction={
-            <>
-              <label htmlFor="my-modal-6" className="btn">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </label>
-            </>
-          }
-          openButtonContent={<ModalButton />}
-          openButtonStyles="btn btn-square"
-        >
-          OLIS
-        </Modal>
+          name="districtId"
+          defaultValue={districtsNames[0]}
+          options={districtsNames.map((district) => district.name)}
+        />
 
         <input
           type="submit"

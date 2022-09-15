@@ -7,7 +7,6 @@ import { Select, Form } from "../../commons/Form";
 import { getRecord, editRecord } from "../../store/actions/records.actions";
 import {
   selectRecord,
-  selectRecordsQueryStatus,
   selectColorsPriority,
   selectColorsStatus,
 } from "../../store/slices/records.slice";
@@ -19,14 +18,13 @@ export default function Record() {
   const params = useParams();
   const { id } = params;
 
-  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
   const record = useSelector(selectRecord);
-
-  const [selectedStatus, setSelectedStatus] = useState();
-  const [selectedPriority, setSelectedPriority] = useState();
 
   const contentPriority = useSelector(selectColorsPriority);
   const contentStatus = useSelector(selectColorsStatus);
+
+  const [selectedStatus, setSelectedStatus] = useState();
+  const [selectedPriority, setSelectedPriority] = useState();
 
   const onSubmit = async (value, name) => {
     // debugger;
@@ -63,7 +61,7 @@ export default function Record() {
       setSelectedPriority(priority);
       setSelectedStatus(status);
     }
-  }, [record]);
+  }, [record, contentPriority, contentStatus]);
 
   return (
     <>

@@ -59,9 +59,10 @@ export default function Tracings() {
         onSubmit={onSubmit}
         isShown={isCreating}
       />
-      {tracings.map((tracing, index) => (
-        <Tracing tracing={tracing} key={index} />
-      ))}
+      {!!tracings &&
+        tracings.map((tracing, index) => (
+          <Tracing tracing={tracing} key={index} />
+        ))}
     </div>
   );
 }

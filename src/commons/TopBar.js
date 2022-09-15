@@ -2,11 +2,17 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { selectRecord, removeRecord } from "../features/record/recordSlice";
+import { selectRecord, setRecord } from "../store/slices/records.slice";
+import { removeRecord } from "../store/actions/records.actions";
 
 export function TopBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const goToRecord = () => {
+    dispatch(setRecord({ queryStatus: "", record: {} }));
+    navigate(`/`);
+  };
 
   const selectedRecordId = useSelector(selectRecord).id;
 
@@ -33,7 +39,10 @@ export function TopBar() {
       </div>
       <div className="flex-1 px-3">
         <div className="tooltip tooltip-bottom" data-tip="Estadísticas">
-          <Link to="/" className="btn btn-sm btn-square btn-ghost">
+          <button
+            onClick={goToRecord}
+            className="btn btn-sm btn-square btn-ghost"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -48,7 +57,7 @@ export function TopBar() {
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
               ></path>
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
       <div className="flex-none gap-x-1">

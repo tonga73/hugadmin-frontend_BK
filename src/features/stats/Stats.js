@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectRecords } from "../records/recordsSlice";
+import { selectRecords } from "../../store/slices/records.slice";
 
 export default function Stats() {
   const records = useSelector(selectRecords);

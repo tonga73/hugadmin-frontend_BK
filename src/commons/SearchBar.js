@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { filterRecords } from "../features/records/recordsSlice";
+import { filterRecords } from "../store/slices/records.slice";
 
 export function SearchBar() {
   const dispatch = useDispatch();

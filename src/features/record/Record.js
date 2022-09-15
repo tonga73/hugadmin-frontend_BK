@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Link,
-  Outlet,
-  useSearchParams,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Input, Select, Form } from "../../commons/Form";
+import { Select, Form } from "../../commons/Form";
 
-import {
-  getRecord,
-  selectRecord,
-  selectRecordQueryStatus,
-  editRecord,
-} from "./recordSlice";
-import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
-import { selectTracingQueryStatus, setTracing } from "../tracing/tracingSlice";
+import { getRecord, editRecord } from "../../store/actions/records.actions";
+import { selectRecord } from "../../store/slices/records.slice";
 
 import Tracings from "../tracings/Tracings";
 
 export default function Record() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
 
   const record = useSelector(selectRecord);
-  const recordQueryStatus = useSelector(selectRecordQueryStatus);
-  const tracingQueryStatus = useSelector(selectTracingQueryStatus);
 
   const [selectedStatus, setSelectedStatus] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
@@ -114,8 +99,7 @@ export default function Record() {
 
   useEffect(() => {
     dispatch(getRecord(id));
-    dispatch(setTracing({ queryStatus: "", tracing: {} }));
-  }, [id, tracingQueryStatus]);
+  }, [id]);
 
   useEffect(() => {
     if (record) {
@@ -170,26 +154,28 @@ export default function Record() {
                   ...
                 </span>
               </div>
-              <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
-                <div className="card-body flex-row items-center">
-                  <svg
-                    className="w-10 h-10"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                    ></path>
-                  </svg>
-                  <div className="card-title">{record.district.name} | </div>
-                  <div className="uppercase">{record.district.city}</div>
+              {record.district && (
+                <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
+                  <div className="card-body flex-row items-center">
+                    <svg
+                      className="w-10 h-10"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                      ></path>
+                    </svg>
+                    <div className="card-title">{record.district.name} | </div>
+                    <div className="uppercase">{record.district.city}</div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="w-1/3 flex flex-col gap-y-1.5">

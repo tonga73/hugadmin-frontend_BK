@@ -4,9 +4,11 @@ import { Link, Outlet, useSearchParams } from "react-router-dom";
 
 import { Input, Select, Form } from "../../commons/Form";
 
-
 import { getRecord, selectRecord } from "./recordSlice";
-import { selectRecords, selectRecordsStatus } from "../records/recordsSlice";
+import {
+  selectRecords,
+  selectRecordsStatus,
+} from "../../store/slices/records.slice";
 import { getDistrict, selectDistrict } from "../district/districtSlice";
 import {
   getDistricts,
@@ -67,9 +69,7 @@ export function EditRecord() {
   return (
     <>
       {record.id == recordIdToString && (
-        <div
-          className="px-3 py-1.5 flex flex-col gap-y-3"
-        >
+        <div className="px-3 py-1.5 flex flex-col gap-y-3">
           <Form
             styles="form-control grid grid-cols-2 gap-3"
             onSubmit={onSubmit}

@@ -3,17 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
-  getRecords,
   selectRecords,
   selectFilteredRecords,
   selectRecordsQueryStatus,
   setRecordsQueryStatus,
-} from "./recordsSlice";
-import {
   selectRecord,
-  selectRecordQueryStatus,
-  setRecord,
-} from "../record/recordSlice";
+} from "../../store/slices/records.slice";
+
+import { getRecords } from "../../store/actions/records.actions";
 
 export function Records() {
   const dispatch = useDispatch();
@@ -22,24 +19,24 @@ export function Records() {
   const records = useSelector(selectFilteredRecords);
   const record = useSelector(selectRecord);
   const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
-  const recordQueryStatus = useSelector(selectRecordQueryStatus);
 
   const goToRecord = (value) => {
     navigate(`record/${value}`);
   };
 
   useEffect(() => {
-    if (recordQueryStatus === "created") {
-      navigate({
-        pathname: "/record",
-        search: `?id=${record.id}`,
-      });
+    if (recordsQueryStatus === "created") {
+      navigate(`record/${record.id}`);
       dispatch(getRecords({}));
     }
-  }, [recordQueryStatus]);
+  }, [recordsQueryStatus]);
 
   useEffect(() => {
-    if (recordsQueryStatus !== "loading") {
+    if (
+      recordsQueryStatus === "success" ||
+      recordsQueryStatus === "created" ||
+      recordsQueryStatus === "deleted"
+    ) {
       dispatch(setRecordsQueryStatus({ queryStatus: "" }));
     }
   }, [recordsQueryStatus]);
@@ -47,9 +44,9 @@ export function Records() {
   return (
     <ul className="menu bg-base-100 w-[97%] self-center rounded-box">
       <li className="bordered">
-        {recordQueryStatus === "loading"
+        {recordsQueryStatus === "loading"
           ? "Loading..."
-          : records.map((record,index) => {
+          : records.map((record, index) => {
               return (
                 <button
                   key={index}

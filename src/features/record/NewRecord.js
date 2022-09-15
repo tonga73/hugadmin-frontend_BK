@@ -12,7 +12,7 @@ import {
   selectDistrictsStatus,
 } from "../districts/districtsSlice";
 
-import { newRecord } from "./recordSlice";
+import { newRecord } from "../../store/actions/records.actions";
 
 export default function NewRecord() {
   const dispatch = useDispatch();

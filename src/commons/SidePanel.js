@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getRecords, selectRecords } from "../features/records/recordsSlice";
+import { selectRecords } from "../store/slices/records.slice";
+
+import { getRecords } from "../store/actions/records.actions";
 
 export function SidePanel({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();

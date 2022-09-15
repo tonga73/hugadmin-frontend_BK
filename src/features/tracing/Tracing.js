@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { removeTracing } from "./tracingSlice";
+import { removeTracing } from "../../store/actions/tracings.actions";
 
 import { Form, Input } from "../../commons/Form";
 
@@ -16,7 +16,7 @@ export function CreateTracingForm({ isShown, onSubmit, id, onDelete }) {
                 required
                 type="text"
                 name="name"
-                styles="text-right input focus:bg-primary"
+                styles="text-right input input-sm focus:bg-primary"
               />
             </Form>
           </div>

@@ -1,11 +1,16 @@
-import { current } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Outlet, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { getTracings, selectTracings } from "./tracingsSlice";
-import { newTracing } from "../tracing/tracingSlice";
-import { selectRecord } from "../record/recordSlice";
+import {
+  selectTracings,
+  setTracingsQueryStatus,
+  selectTracingsQueryStatus,
+} from "../../store/slices/tracings.slice";
+import { selectRecord } from "../../store/slices/records.slice";
+
+import { newTracing } from "../../store/actions/tracings.actions";
+import { getRecord } from "../../store/actions/records.actions";
 
 import TracingsTopBar from "./TracingsTopBar";
 
@@ -13,22 +18,29 @@ import Tracing, { CreateTracingForm } from "../tracing/Tracing";
 
 export default function Tracings() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
 
-  var [query, setQuery] = useSearchParams();
-
-  const selectedRecord = useSelector(selectRecord).id;
-
   const tracings = useSelector(selectTracings);
+  const tracingsQueryStatus = useSelector(selectTracingsQueryStatus);
 
-  const handleCreateTracing = () => {
-    setIsCreating((current) => !current);
-  };
+  const record = useSelector(selectRecord);
 
   const onSubmit = (data) => {
-    data.record = selectedRecord;
+    data.record = record.id;
     dispatch(newTracing(data));
   };
+
+  useEffect(() => {
+    if (
+      tracingsQueryStatus === "created" ||
+      tracingsQueryStatus === "deleted"
+    ) {
+      setIsCreating(false);
+      dispatch(setTracingsQueryStatus(""));
+      dispatch(getRecord(record.id));
+    }
+  }, [tracingsQueryStatus]);
 
   return (
     <div className="flex flex-col gap-y-1.5">

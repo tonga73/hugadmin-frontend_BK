@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import Modal from "./Modal";
 
 import { selectRecord, setRecord } from "../store/slices/records.slice";
 import { removeRecord } from "../store/actions/records.actions";
@@ -9,15 +11,69 @@ export function TopBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const goToRecord = () => {
+  const record = useSelector(selectRecord);
+  const selectedRecordId = record.id;
+
+  const goToStats = () => {
     dispatch(setRecord({ queryStatus: "", record: {} }));
     navigate(`/`);
   };
 
-  const selectedRecordId = useSelector(selectRecord).id;
+  function RemoveRecordButton() {
+    return (
+      <>
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          ></path>
+        </svg>
+        Eliminar
+      </>
+    );
+  }
+
+  function RemoveRecordModalContent() {
+    return (
+      <>
+        <h3 className="font-bold text-lg text-center opacity-80 text-warning inline-flex">
+          <svg
+            className="w-10 h-10"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            ></path>
+          </svg>
+          Confirma ELIMINAR DEFINITIVAMENTE el expediente:
+        </h3>
+        <p className="py-4 text-xl font-bold uppercase text-center">
+          {record.order} | {record.title}
+        </p>
+      </>
+    );
+  }
 
   return (
-    <div className="navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100">
+    <div
+      className={`navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100 ${
+        !!Object.keys(record).length ? "" : "pointer-events-none opacity-10"
+      }`}
+    >
       <div className="flex-none">
         <button className="btn btn-sm btn-outline btn-info">
           <svg
@@ -40,7 +96,7 @@ export function TopBar() {
       <div className="flex-1 px-3">
         <div className="tooltip tooltip-bottom" data-tip="Estadísticas">
           <button
-            onClick={goToRecord}
+            onClick={goToStats}
             className="btn btn-sm btn-square btn-ghost"
           >
             <svg
@@ -78,26 +134,41 @@ export function TopBar() {
           </svg>
           Archivar
         </button>
-        <button
-          onClick={() => dispatch(removeRecord(selectedRecordId))}
-          className="btn btn-sm btn-outline btn-error"
+        <Modal
+          htmlFor="remove-record-modal"
+          modalAction={
+            <>
+              <label
+                htmlFor="remove-record-modal"
+                onClick={() => dispatch(removeRecord(selectedRecordId))}
+                className="btn btn-error"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
+                Eliminar Expediente
+              </label>
+              <label htmlFor="remove-record-modal" className="btn">
+                Cancelar
+              </label>
+            </>
+          }
+          openButtonContent={<RemoveRecordButton />}
+          openButtonStyles="btn btn-sm btn-outline btn-error"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            ></path>
-          </svg>
-          Eliminar
-        </button>
+          <RemoveRecordModalContent />
+        </Modal>
       </div>
     </div>
   );

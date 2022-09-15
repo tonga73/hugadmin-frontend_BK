@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { Transition } from "@headlessui/react";
+import { useParams } from "react-router-dom";
 
 import { Select, Form } from "../../commons/Form";
 
@@ -101,7 +99,7 @@ export default function Record() {
 
   useEffect(() => {
     dispatch(getRecord(id));
-  }, [id]);
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (record) {
@@ -119,18 +117,7 @@ export default function Record() {
   return (
     <>
       {!!Object.keys(record).length && (
-        <Transition
-          show={true}
-          appear
-          as="div"
-          enter="transition-opacity ease-linear duration-1000"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity ease-linear duration-1000"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          className="flex gap-x-1.5 h-full"
-        >
+        <div className="flex gap-x-1.5 h-full">
           <div className="w-2/3 h-full">
             <div className="flex flex-col gap-y-5 p-1.5 bg-base-content rounded-md">
               <Form styles="form-control grid grid-cols-2 gap-3">
@@ -194,7 +181,7 @@ export default function Record() {
           <div className="w-1/3 flex flex-col gap-y-1.5">
             <Tracings />
           </div>
-        </Transition>
+        </div>
       )}
     </>
   );

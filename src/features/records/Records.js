@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
-  selectRecords,
   selectFilteredRecords,
   selectRecordsQueryStatus,
   setRecordsQueryStatus,
@@ -18,6 +17,7 @@ export function Records() {
 
   const records = useSelector(selectFilteredRecords);
   const record = useSelector(selectRecord);
+  const selectedRecordId = record.id;
   const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
 
   const goToRecord = (value) => {
@@ -26,10 +26,13 @@ export function Records() {
 
   useEffect(() => {
     if (recordsQueryStatus === "created") {
-      navigate(`record/${record.id}`);
+      navigate(`record/${selectedRecordId}`);
+      dispatch(getRecords({}));
+    } else if (recordsQueryStatus === "deleted") {
+      navigate(`/`);
       dispatch(getRecords({}));
     }
-  }, [recordsQueryStatus]);
+  }, [recordsQueryStatus, dispatch, navigate, selectedRecordId]);
 
   useEffect(() => {
     if (
@@ -39,7 +42,7 @@ export function Records() {
     ) {
       dispatch(setRecordsQueryStatus({ queryStatus: "" }));
     }
-  }, [recordsQueryStatus]);
+  }, [recordsQueryStatus, dispatch]);
 
   return (
     <ul className="menu bg-base-100 w-[97%] self-center rounded-box">

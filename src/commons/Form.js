@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 export function Form({ defaultValues, children, onSubmit, styles, id }) {
   const methods = useForm({ defaultValues });
-  const { handleSubmit, errors, watch } = methods;
+  const { handleSubmit } = methods;
 
   return (
     <form

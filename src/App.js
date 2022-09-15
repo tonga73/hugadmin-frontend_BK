@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 // LAYOUTS
 import MainLayout from "./layouts/MainLayout";
 
+import NotFound from "./commons/NotFound";
+
 import Stats from "./features/stats/Stats";
 import Record from "./features/record/Record";
 import NewRecord from "./features/record/NewRecord";
@@ -21,6 +23,7 @@ function App() {
           <Route index element={<LeagueStandings />} />
         </Route> */}
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

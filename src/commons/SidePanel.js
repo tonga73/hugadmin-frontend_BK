@@ -1,24 +1,14 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import {
-  selectRecords,
-  selectRecordsQueryStatus,
-} from "../store/slices/records.slice";
+import { useDispatch } from "react-redux";
 
 import { getRecords } from "../store/actions/records.actions";
-import { useNavigate } from "react-router-dom";
 
 export function SidePanel({ children }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const records = useSelector(selectRecords);
-  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
 
   useEffect(() => {
     dispatch(getRecords({}));
-  }, []);
+  }, [dispatch]);
   // useEffect(() => {
   //   dispatch(getRecords({}));
   //   if (recordsQueryStatus === "deleted") {

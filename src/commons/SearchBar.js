@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 import { filterRecords } from "../store/slices/records.slice";

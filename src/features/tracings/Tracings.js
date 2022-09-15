@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import { Transition } from "@headlessui/react";
 
 import {
   selectTracings,
@@ -20,7 +17,6 @@ import Tracing, { CreateTracingForm } from "../tracing/Tracing";
 
 export default function Tracings() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
 
   const tracings = useSelector(selectTracings);
@@ -28,8 +24,10 @@ export default function Tracings() {
 
   const record = useSelector(selectRecord);
 
+  const selectedRecordId = record.id;
+
   const onSubmit = (data) => {
-    data.record = record.id;
+    data.record = selectedRecordId;
     dispatch(newTracing(data));
   };
 
@@ -40,15 +38,15 @@ export default function Tracings() {
     ) {
       setIsCreating(false);
       dispatch(setTracingsQueryStatus(""));
-      dispatch(getRecord(record.id));
+      dispatch(getRecord(selectedRecordId));
     }
-  }, [tracingsQueryStatus]);
+  }, [tracingsQueryStatus, dispatch, selectedRecordId]);
 
   useEffect(() => {
     if (tracingsQueryStatus === "success") {
       dispatch(setTracingsQueryStatus(""));
     }
-  }, [tracingsQueryStatus]);
+  }, [tracingsQueryStatus, dispatch]);
 
   return (
     <div className="flex flex-col gap-y-1.5">

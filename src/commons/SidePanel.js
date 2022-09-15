@@ -9,7 +9,7 @@ import {
 import { getRecords } from "../store/actions/records.actions";
 import { useNavigate } from "react-router-dom";
 
-export function SidePanel({ children }: { children: ReactNode }) {
+export function SidePanel({ children }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

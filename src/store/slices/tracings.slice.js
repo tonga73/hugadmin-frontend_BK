@@ -14,6 +14,7 @@ export const tracingsSlice = createSlice({
   reducers: {
     setTracing: (state, action) => {
       state.queryStatus = action.payload.queryStatus;
+      state.tracings = action.payload.tracings;
       state.tracing = action.payload.tracing;
     },
     setTracingsQueryStatus: (state, action) => {

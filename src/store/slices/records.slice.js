@@ -2,11 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { getRecords } from "../actions/records.actions";
 
+import { contentStatus, contentPriority } from "../../utils/recordColors";
+
 const initialState = {
   queryStatus: "",
   records: [],
   filteredRecords: [],
   record: {},
+  recordColors: {
+    priority: contentPriority,
+    status: contentStatus,
+  },
 };
 
 export const recordsSlice = createSlice({
@@ -50,6 +56,11 @@ export const selectRecords = (state) => state.records.records;
 export const selectRecord = (state) => state.records.record;
 
 export const selectFilteredRecords = (state) => state.records.filteredRecords;
+
+export const selectColorsPriority = (state) =>
+  state.records.recordColors.priority;
+
+export const selectColorsStatus = (state) => state.records.recordColors.status;
 
 export const filterRecords = (search) => (dispatch, getState) => {
   const records = selectRecords(getState());

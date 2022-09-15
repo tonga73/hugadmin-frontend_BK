@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Modal from "../../commons/Modal";
 
 import { Input, Select, Form } from "../../commons/Form";
 
-import { getDistricts } from "../districts/districtsSlice";
+import {
+  selectColorsPriority,
+  selectColorsStatus,
+} from "../../store/slices/records.slice";
 
 import { newRecord } from "../../store/actions/records.actions";
 
@@ -14,26 +17,10 @@ export default function NewRecord() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const contentPriority = [
-    "Nula",
-    "Baja",
-    "Media",
-    "Alta",
-    "Urgente",
-    "Inactivo",
-  ];
-
-  const contentStatus = [
-    "Acepta cargo",
-    "Acto pericial realizado",
-    "Pericia realizada",
-    "Sentencia o convenio de partes",
-    "Honorarios regulados",
-    "En tratativa de cobro",
-    "Cobrado",
-  ];
-
   const onSubmit = (data) => dispatch(newRecord(data));
+
+  const contentPriority = useSelector(selectColorsPriority).map((e) => e.name);
+  const contentStatus = useSelector(selectColorsStatus).map((e) => e.name);
 
   const ModalButton = () => {
     return (
@@ -53,10 +40,6 @@ export default function NewRecord() {
       </svg>
     );
   };
-
-  useEffect(() => {
-    dispatch(getDistricts({}));
-  }, [dispatch]);
 
   return (
     <div className="px-3 py-1.5 flex flex-col gap-y-3">

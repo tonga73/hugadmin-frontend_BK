@@ -8,6 +8,8 @@ import { getRecord, editRecord } from "../../store/actions/records.actions";
 import {
   selectRecord,
   selectRecordsQueryStatus,
+  selectColorsPriority,
+  selectColorsStatus,
 } from "../../store/slices/records.slice";
 
 import Tracings from "../tracings/Tracings";
@@ -23,63 +25,8 @@ export default function Record() {
   const [selectedStatus, setSelectedStatus] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
 
-  const contentPriority = [
-    {
-      name: "Nula",
-      color: "bg-stone-900",
-    },
-    {
-      name: "Baja",
-      color: "bg-green-700",
-    },
-    {
-      name: "Media",
-      color: "bg-yellow-500",
-    },
-    {
-      name: "Alta",
-      color: "bg-orange-500",
-    },
-    {
-      name: "Urgente",
-      color: "bg-red-600",
-    },
-    {
-      name: "Inactivo",
-      color: "bg-stone-500",
-    },
-  ];
-
-  const contentStatus = [
-    {
-      name: "Acepta cargo",
-      color: "bg-stone-900",
-    },
-    {
-      name: "Acto pericial realizado",
-      color: "bg-green-900",
-    },
-    {
-      name: "Pericia realizada",
-      color: "bg-blue-500",
-    },
-    {
-      name: "Sentencia o convenio de partes",
-      color: "bg-blue-900",
-    },
-    {
-      name: "Honorarios regulados",
-      color: "bg-yellow-700",
-    },
-    {
-      name: "En tratativa de cobro",
-      color: "bg-purple-500",
-    },
-    {
-      name: "Cobrado",
-      color: "bg-purple-700",
-    },
-  ];
+  const contentPriority = useSelector(selectColorsPriority);
+  const contentStatus = useSelector(selectColorsStatus);
 
   const onSubmit = async (value, name) => {
     // debugger;

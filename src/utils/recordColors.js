@@ -1,5 +1,3 @@
-import React from "react";
-
 export const contentPriority = [
   {
     name: "Nula",
@@ -57,7 +55,3 @@ export const contentStatus = [
     color: "bg-purple-700",
   },
 ];
-
-export default function recordColors() {
-  return <div>generateRecordColors</div>;
-}

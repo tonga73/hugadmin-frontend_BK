@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 
 import { selectRecord, setRecord } from "../store/slices/records.slice";
+import { setTracing } from "../store/slices/tracings.slice";
+
 import { removeRecord } from "../store/actions/records.actions";
 
 export function TopBar() {
@@ -16,6 +18,7 @@ export function TopBar() {
 
   const goToStats = () => {
     dispatch(setRecord({ queryStatus: "", record: {} }));
+    dispatch(setTracing({ queryStatus: "", tracings: [], tracing: {} }));
     navigate(`/`);
   };
 

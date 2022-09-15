@@ -33,7 +33,7 @@ export function Records() {
 
   useEffect(() => {
     if (
-      recordsQueryStatus === "success" ||
+      recordsQueryStatus === "loading" ||
       recordsQueryStatus === "created" ||
       recordsQueryStatus === "deleted"
     ) {

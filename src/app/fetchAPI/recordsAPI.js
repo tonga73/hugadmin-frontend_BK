@@ -18,7 +18,6 @@ export function fetchGetRecords() {
 }
 
 export function fetchGetRecord(req) {
-  console.log(req);
   return axiosClient
     .get(`/record/${req}`)
     .then(({ data }) => {

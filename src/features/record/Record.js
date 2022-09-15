@@ -7,10 +7,7 @@ import { Transition } from "@headlessui/react";
 import { Select, Form } from "../../commons/Form";
 
 import { getRecord, editRecord } from "../../store/actions/records.actions";
-import {
-  selectRecord,
-  selectRecordsQueryStatus,
-} from "../../store/slices/records.slice";
+import { selectRecord } from "../../store/slices/records.slice";
 
 import Tracings from "../tracings/Tracings";
 
@@ -20,7 +17,6 @@ export default function Record() {
   const { id } = params;
 
   const record = useSelector(selectRecord);
-  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
 
   const [selectedStatus, setSelectedStatus] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
@@ -124,13 +120,13 @@ export default function Record() {
     <>
       {!!Object.keys(record).length && (
         <Transition
-          show={recordsQueryStatus === ""}
+          show={true}
           appear
           as="div"
-          enter="transition-opacity ease-linear duration-200"
+          enter="transition-opacity ease-linear duration-1000"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="transition-opacity ease-linear duration-200"
+          leave="transition-opacity ease-linear duration-1000"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex gap-x-1.5 h-full"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import Spinner from "../../commons/Spinner";
 import { Select, Form } from "../../commons/Form";
 
 import { getRecord, editRecord } from "../../store/actions/records.actions";
@@ -136,12 +137,7 @@ export default function Record() {
           </div>
         </div>
       ) : (
-        <div className="h-full flex justify-center items-center">
-          <div
-            className="radial-progress animate-spin opacity-50"
-            style={{ "--value": 70 }}
-          ></div>
-        </div>
+        <Spinner />
       )}
     </>
   );

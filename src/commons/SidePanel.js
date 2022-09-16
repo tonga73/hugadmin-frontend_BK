@@ -16,6 +16,7 @@ export function SidePanel({ children }) {
   useEffect(() => {
     dispatch(getRecords({}));
   }, [dispatch]);
+
   useEffect(() => {
     if (recordsQueryStatus === "success") {
       dispatch(setRecordsQueryStatus(""));

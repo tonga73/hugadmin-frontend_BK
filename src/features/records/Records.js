@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import Spinner from "../../commons/Spinner";
+
 import {
   selectFilteredRecords,
   selectRecordsQueryStatus,
@@ -36,11 +38,11 @@ export function Records() {
 
   useEffect(() => {
     if (
-      recordsQueryStatus === "loading" ||
+      recordsQueryStatus === "success" ||
       recordsQueryStatus === "created" ||
       recordsQueryStatus === "deleted"
     ) {
-      dispatch(setRecordsQueryStatus({ queryStatus: "" }));
+      dispatch(setRecordsQueryStatus(""));
     }
   }, [recordsQueryStatus, dispatch]);
 
@@ -49,19 +51,14 @@ export function Records() {
       <li className="menu-title py-1.5 font-bold opacity-50">{`(${
         records.length
       }) EXPEDIENTE${records.length > 1 ? "S" : ""}`}</li>
-      {recordsQueryStatus !== "" ? (
-        <div className="h-full flex justify-center items-center">
-          <div
-            className="radial-progress animate-spin opacity-50"
-            style={{ "--value": 70 }}
-          ></div>
-        </div>
+      {recordsQueryStatus === "loading" ? (
+        <Spinner />
       ) : (
         records.map((record, index) => {
           return (
-            <li className="bordered">
+            <li key={index}>
               <button
-                className={selectedRecordId === record.id ? "active" : ""}
+                className={`${selectedRecordId === record.id ? "" : ""}`}
                 key={index}
                 onClick={() => {
                   goToRecord(record.id);

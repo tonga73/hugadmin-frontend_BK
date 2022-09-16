@@ -64,9 +64,7 @@ export const selectColorsStatus = (state) => state.records.recordColors.status;
 
 export const filterRecords = (search) => (dispatch, getState) => {
   const records = selectRecords(getState());
-  if (search === "") {
-    dispatch(setFilteredRecords(records));
-  } else {
+  if (search.length > 1) {
     const filteredRecords = records.filter((item) => {
       return Object.values(item)
         .join("")
@@ -74,6 +72,8 @@ export const filterRecords = (search) => (dispatch, getState) => {
         .includes(search.toLowerCase());
     });
     dispatch(setFilteredRecords(filteredRecords));
+  } else {
+    dispatch(setFilteredRecords(records));
   }
 };
 

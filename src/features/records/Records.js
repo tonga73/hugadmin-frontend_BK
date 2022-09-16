@@ -45,23 +45,34 @@ export function Records() {
   }, [recordsQueryStatus, dispatch]);
 
   return (
-    <ul className="menu bg-base-100 w-[97%] self-center rounded-box">
-      <li className="bordered">
-        {recordsQueryStatus === "loading"
-          ? "Loading..."
-          : records.map((record, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={() => {
-                    goToRecord(record.id);
-                  }}
-                >
-                  {record.order} | {`${record.title.substring(0, 30)} ...`}
-                </button>
-              );
-            })}
-      </li>
+    <ul className="menu bg-base-100 w-[97%] h-full self-center rounded-box">
+      <li className="menu-title py-1.5 font-bold opacity-50">{`(${
+        records.length
+      }) EXPEDIENTE${records.length > 1 ? "S" : ""}`}</li>
+      {recordsQueryStatus !== "" ? (
+        <div className="h-full flex justify-center items-center">
+          <div
+            className="radial-progress animate-spin opacity-50"
+            style={{ "--value": 70 }}
+          ></div>
+        </div>
+      ) : (
+        records.map((record, index) => {
+          return (
+            <li className="bordered">
+              <button
+                className={selectedRecordId === record.id ? "active" : ""}
+                key={index}
+                onClick={() => {
+                  goToRecord(record.id);
+                }}
+              >
+                {record.order} | {`${record.title.substring(0, 30)} ...`}
+              </button>
+            </li>
+          );
+        })
+      )}
     </ul>
   );
 }

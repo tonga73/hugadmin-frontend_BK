@@ -14,24 +14,24 @@ export function CreateTracingForm({ isShown, onSubmit, id, onDelete }) {
     <Transition
       show={isShown}
       appear
+      as="div"
+      className="card card-compact bg-secondary-focus shadow-xl mx-0.5"
       enter="transition ease-in-out duration-500 transform"
-      enterFrom="translate-x-full opacity-0"
-      enterTo="translate-x-0 opacity-100"
+      enterFrom="-translate-y-1/3 opacity-0"
+      enterTo="translate-y-0 opacity-100"
       leave="transition ease-in-out duration-500 transform"
-      leaveFrom="translate-x-0 opacity-100"
-      leaveTo="translate-x-full opacity-0"
+      leaveFrom="translate-y-0 opacity-100"
+      leaveTo="-translate-y-1/3 opacity-0"
     >
-      <div className="card card-compact bg-secondary-focus shadow-xl">
-        <div className="card-body">
-          <Form id={id} onSubmit={onSubmit} styles="card-title text-right">
-            <Input
-              required
-              type="text"
-              name="name"
-              styles="text-right input input-sm focus:bg-primary"
-            />
-          </Form>
-        </div>
+      <div className="card-body">
+        <Form id={id} onSubmit={onSubmit} styles="card-title text-right">
+          <Input
+            required
+            type="text"
+            name="name"
+            styles="text-right input input-sm focus:bg-primary w-[97%]"
+          />
+        </Form>
       </div>
     </Transition>
   );

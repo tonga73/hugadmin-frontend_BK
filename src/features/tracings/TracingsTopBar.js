@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TracingsTopBar({ onClick, isCreating }) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between z-10 bg-gradient-to-b from-base-100 via-base-100 pb-1.5">
       <button
         type="button"
         onClick={onClick}

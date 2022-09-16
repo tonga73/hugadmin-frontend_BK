@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+
+import usersSlice from "./slices/users.slice";
 
 import recordsSlice from "./slices/records.slice";
 
@@ -9,7 +10,7 @@ import districtsSlice from "./slices/districts.slice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    users: usersSlice,
     records: recordsSlice,
     tracings: tracingsSlice,
     districts: districtsSlice,

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { Outlet, Link } from "react-router-dom";
+import { gapi } from "gapi-script";
 
 import { TopBar } from "../commons/TopBar";
 import { SidePanel } from "../commons/SidePanel";
@@ -8,7 +11,43 @@ import { UserTopBar } from "../features/user/UserTopBar";
 import { SearchBar } from "../commons/SearchBar";
 import { Records } from "../features/records/Records";
 
+import { setSignedIn, selectIsSignedIn } from "../store/slices/users.slice";
+
 export default function MainLayout() {
+  const dispatch = useDispatch();
+  const auth = useRef(null);
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  const isSignedIn = useSelector(selectIsSignedIn);
+  useEffect(() => {
+    gapi.load("client:auth2", () => {
+      gapi.client
+        .init({
+          clientId: clientId,
+          scope: "profile email",
+        })
+        .then(() => {
+          auth.current = gapi.auth2.getAuthInstance();
+          dispatch(
+            setSignedIn({
+              queryStatus: "",
+              isSignedIn: auth.current.isSignedIn.get(),
+            })
+          );
+          auth.current.isSignedIn.listen(onAuthChange);
+        });
+    });
+  }, [isSignedIn]);
+
+  const onAuthChange = () => {
+    dispatch(
+      setSignedIn({
+        queryStatus:
+          auth.current.isSignedIn.get() === false ? "logedout" : "logedin",
+        isSignedIn: auth.current.isSignedIn.get(),
+      })
+    );
+  };
   function CreateRecordButton() {
     return (
       <Link

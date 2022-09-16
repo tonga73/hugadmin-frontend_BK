@@ -1,3 +1,4 @@
+// ESTE ARCHIVO PROPORCIONA LOS DATOS PARA LOS COLORES EN EL STORE
 export const contentPriority = [
   {
     name: "Nula",

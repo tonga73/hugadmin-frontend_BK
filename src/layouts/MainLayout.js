@@ -25,8 +25,8 @@ export default function MainLayout() {
       <div className="col-span-4 px-1.5">
         <SidePanel>
           <UserTopBar />
-          <SearchBar />
           {CreateRecordButton()}
+          <SearchBar />
           <Records />
         </SidePanel>
       </div>

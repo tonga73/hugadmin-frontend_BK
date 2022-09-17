@@ -5,6 +5,7 @@ const initialState = {
   users: [],
   filteredUsers: [],
   activeUser: {
+    // ...JSON.parse(localStorage.getItem("user")),
     isSignedIn: null,
   },
 };
@@ -14,14 +15,13 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     setSignedIn: (state, action) => {
-      state.queryStatus = action.payload.queryStatus;
-      state.activeUser.isSignedIn = action.payload.isSignedIn;
+      state.activeUser.isSignedIn = action.payload;
     },
   },
 });
 
 export const { setSignedIn } = usersSlice.actions;
 
-export const selectIsSignedIn = (state) => state.users.isSignedIn;
+export const selectIsSignedIn = (state) => state.users.activeUser.isSignedIn;
 
 export default usersSlice.reducer;

@@ -8,6 +8,8 @@ import {
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { gapi } from "gapi-script";
+
 import { useLocalStorage } from "../utils/useLocalStorage";
 
 import { setSignedIn, selectIsSignedIn } from "../store/slices/users.slice";
@@ -19,25 +21,62 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useLocalStorage("user", null);
-  const isSignedIn = useSelector(selectIsSignedIn);
 
   const auth = useRef(null);
 
   const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const API_KEY = process.env.REACT_APP_API_KEY;
 
-  // Discovery doc URL for APIs used by the quickstart
-  const DISCOVERY_DOC =
-    "https://docs.googleapis.com/$discovery/rest?version=v1";
-
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  const SCOPES =
-    "profile email https://www.googleapis.com/auth/documents.readonly";
+  const SCOPES = "profile email";
+
+  const initClient = () => {
+    // setIsLoadingGoogleDriveApi(true);
+    gapi.load(
+      "client:auth2",
+      () => {
+        gapi.client
+          .init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            scope: SCOPES,
+            // redirect_uri: ''
+          })
+          .then(function () {
+            auth.current = gapi.auth2.getAuthInstance();
+            auth.current.isSignedIn.listen(updateSigninStatus);
+            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+          });
+      },
+      []
+    );
+  };
+
+  const updateSigninStatus = (isSignedIn) => {
+    if (isSignedIn) {
+      console.log("LOGUEADO");
+      dispatch(setSignedIn(isSignedIn));
+    } else {
+      console.log("NO LOGUEADO");
+      dispatch(setSignedIn(isSignedIn));
+      // prompt user to sign in
+    }
+  };
 
   // call this function when you want to authenticate the user
   const login = async (data) => {
-    setUser(data.profileObj);
+    await auth.current.signIn();
+
+    const user = {};
+
+    user.name = auth.current.currentUser.le.wt.Ad;
+    user.email = auth.current.currentUser.le.wt.cu;
+    user.imageUrl = auth.current.currentUser.le.wt.hK;
+    user.givenName = auth.current.currentUser.le.wt.rV;
+    user.familyName = auth.current.currentUser.le.wt.uT;
+
+    setUser(user);
     navigate("/");
   };
 
@@ -47,12 +86,7 @@ export const AuthProvider = ({ children }) => {
 
   // call this function to sign out logged in user
   const logout = () => {
-    dispatch(
-      setSignedIn({
-        queryStatus: "logout",
-        isSignedIn: null,
-      })
-    );
+    auth.current.signOut();
     setUser(null);
     navigate("/", { replace: true });
   };
@@ -61,13 +95,30 @@ export const AuthProvider = ({ children }) => {
     () => ({
       user,
       CLIENT_ID,
-      SCOPES,
       login,
       logout,
       onFailure,
     }),
     [user]
   );
+
+  useEffect(() => {
+    gapi.load("client", {
+      callback: function () {
+        // Handle gapi.client initialization.
+        initClient();
+      },
+      onerror: function () {
+        // Handle loading error.
+        alert("gapi.client failed to load!");
+      },
+      timeout: 5000, // 5 seconds.
+      ontimeout: function () {
+        // Handle timeout.
+        alert("gapi.client could not load in a timely manner!");
+      },
+    });
+  });
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

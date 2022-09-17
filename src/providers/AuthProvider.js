@@ -9,7 +9,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../utils/useLocalStorage";
-import { gapi } from "gapi-script";
 
 import { setSignedIn, selectIsSignedIn } from "../store/slices/users.slice";
 
@@ -23,8 +22,9 @@ export const AuthProvider = ({ children }) => {
   const isSignedIn = useSelector(selectIsSignedIn);
 
   const auth = useRef(null);
-  const API_KEY = process.env.REACT_APP_API_KEY;
+
   const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   // Discovery doc URL for APIs used by the quickstart
   const DISCOVERY_DOC =
@@ -32,21 +32,8 @@ export const AuthProvider = ({ children }) => {
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  const SCOPES = "https://www.googleapis.com/auth/documents.readonly";
-
-  let tokenClient;
-  let gapiInited = false;
-  let gisInited = false;
-
-  const onAuthChange = () => {
-    dispatch(
-      setSignedIn({
-        queryStatus:
-          auth.current.isSignedIn.get() === false ? "logedout" : "logedin",
-        isSignedIn: auth.current.isSignedIn.get(),
-      })
-    );
-  };
+  const SCOPES =
+    "profile email https://www.googleapis.com/auth/documents.readonly";
 
   // call this function when you want to authenticate the user
   const login = async (data) => {
@@ -74,34 +61,13 @@ export const AuthProvider = ({ children }) => {
     () => ({
       user,
       CLIENT_ID,
+      SCOPES,
       login,
       logout,
       onFailure,
     }),
     [user]
   );
-
-  useEffect(() => {
-    gapi.load("client:auth2", () => {
-      gapi.client
-        .init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          scope: "profile email",
-        })
-        .then(() => {
-          auth.current = gapi.auth2.getAuthInstance();
-          dispatch(
-            setSignedIn({
-              queryStatus: "",
-              isSignedIn: auth.current.isSignedIn.get(),
-            })
-          );
-          auth.current.isSignedIn.listen(onAuthChange);
-        });
-      gapiInited = true;
-    });
-  }, [isSignedIn]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

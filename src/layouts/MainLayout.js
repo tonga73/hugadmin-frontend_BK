@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Outlet, Link } from "react-router-dom";
-import { gapi } from "gapi-script";
 
 import { TopBar } from "../commons/TopBar";
 import { SidePanel } from "../commons/SidePanel";

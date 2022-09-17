@@ -1,5 +1,4 @@
 import React from "react";
-import { GoogleLogout } from "react-google-login";
 
 import { useAuth } from "../../providers/AuthProvider";
 
@@ -12,11 +11,7 @@ export function UserTopBar() {
   return (
     <div className="navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100">
       <h3 className="text-3xl">User</h3>
-      <GoogleLogout
-        clientId={clientId}
-        buttonText="Logout"
-        onLogoutSuccess={logOut}
-      ></GoogleLogout>
+      LOGOUT
     </div>
   );
 }

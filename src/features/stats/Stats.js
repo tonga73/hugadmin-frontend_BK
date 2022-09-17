@@ -1,9 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { useAuth } from "../../providers/AuthProvider";
+
 import { selectRecords } from "../../store/slices/records.slice";
 
 export default function Stats() {
+  const { user } = useAuth();
   const records = useSelector(selectRecords);
   const getTotalRecords = (records) => {
     return Object.keys(records).length;
@@ -65,10 +68,11 @@ export default function Stats() {
           <div className="stat-figure text-secondary">
             <div className="avatar online">
               <div className="w-16 rounded-full">
-                <img
-                  src="https://placeimg.com/128/128/people"
-                  alt="Random Alt"
-                />
+                {!!user && (
+                  <>
+                    <img src={user.imageUrl} alt="Random Alt" />
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -33,8 +33,6 @@ function App() {
             <Route path="record/:id" element={<Record />} />
             <Route path="new-record" element={<NewRecord />} />
           </Route>
-        </Routes>
-        <Routes>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -82,8 +82,8 @@ export function EditRecord() {
             />
             <Select
               styles="input input-bordered input-lg uppercase w-full"
-              defaultValue={record.status}
-              name="status"
+              defaultValue={record.tracing}
+              name="tracing"
               options={contentStatus}
             />
             <Input

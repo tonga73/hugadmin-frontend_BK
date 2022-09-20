@@ -17,7 +17,7 @@ export function TopBar() {
   const selectedRecordId = record.id;
 
   const goToStats = () => {
-    dispatch(setRecord({ queryStatus: "", record: {} }));
+    dispatch(setRecord({ status: "", record: {} }));
     dispatch(setTracing({ queryStatus: "", tracings: [], tracing: {} }));
     navigate(`/`);
   };
@@ -65,7 +65,7 @@ export function TopBar() {
           Confirma ELIMINAR DEFINITIVAMENTE el expediente:
         </h3>
         <p className="py-4 text-xl font-bold uppercase text-center">
-          {record.order} | {record.title}
+          {record.order} | {record.name}
         </p>
       </>
     );

@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export function Form({ defaultValues, children, onSubmit, styles, id }) {
+import { Form } from "react-daisyui";
+
+export default function ({ defaultValues, children, onSubmit, styles, id }) {
   const methods = useForm({ defaultValues });
   const { handleSubmit } = methods;
 
   return (
-    <form
+    <Form
       id={id}
       className={(!!styles && styles) || ""}
       onSubmit={handleSubmit(onSubmit)}
@@ -22,7 +24,7 @@ export function Form({ defaultValues, children, onSubmit, styles, id }) {
             })
           : child;
       })}
-    </form>
+    </Form>
   );
 }
 

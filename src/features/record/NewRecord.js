@@ -2,40 +2,29 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Input, Select, Form } from "../../commons/Form";
+import Form, { Input, Select } from "../../commons/Form";
 
 import {
   setRecord,
   selectColorsPriority,
-  selectColorsStatus,
+  selectColorsTracing,
 } from "../../store/slices/records.slice";
-import { selectDistricts } from "../../store/slices/districts.slice";
 
 import { newRecord } from "../../store/actions/records.actions";
-import { getDistricts } from "../../store/actions/districts.actions";
 
 export default function NewRecord() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const contentPriority = useSelector(selectColorsPriority).map((e) => e.name);
-  const contentStatus = useSelector(selectColorsStatus).map((e) => e.name);
-
-  const districtsNames = useSelector(selectDistricts);
+  const contentTracing = useSelector(selectColorsTracing).map((e) => e.name);
 
   const onSubmit = (data) => {
-    // Buscar ID del District por Nombre
-    const district = districtsNames.find(
-      (district) => district.name === data.districtId
-    );
-    data.districtId = district.id;
-
     dispatch(newRecord(data));
   };
 
   useEffect(() => {
-    dispatch(getDistricts({}));
-    dispatch(setRecord({ queryStatus: "creating", record: {} }));
+    dispatch(setRecord({ status: "creating", record: {} }));
   }, [dispatch]);
 
   return (
@@ -70,8 +59,8 @@ export default function NewRecord() {
         <Select
           required
           styles="input input-bordered input-lg w-full"
-          name="status"
-          options={contentStatus}
+          name="tracing"
+          options={contentTracing}
         />
         <Input
           required
@@ -81,18 +70,18 @@ export default function NewRecord() {
         />
         <Input
           required
-          name="title"
+          name="name"
           placeholder="Carátula del Expediente"
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
         />
 
-        <Select
+        {/* <CustomSelect
           required
           styles="input input-bordered input-lg w-full col-span-2 focus:bg-primary"
-          name="districtId"
-          defaultValue={districtsNames[0]}
-          options={districtsNames.map((district) => district.name)}
-        />
+          name="officeId"
+          defaultValue={}
+          options={}
+        /> */}
 
         <input
           type="submit"

@@ -1,58 +1,58 @@
 // ESTE ARCHIVO PROPORCIONA LOS DATOS PARA LOS COLORES EN EL STORE
 export const contentPriority = [
   {
-    name: "Nula",
+    name: "NULA",
     color: "bg-stone-900",
   },
   {
-    name: "Baja",
-    color: "bg-green-700",
+    name: "BAJA",
+    color: "bg-green-900",
   },
   {
-    name: "Media",
-    color: "bg-yellow-500",
+    name: "MEDIA",
+    color: "bg-yellow-700",
   },
   {
-    name: "Alta",
-    color: "bg-orange-500",
+    name: "ALTA",
+    color: "bg-orange-700",
   },
   {
-    name: "Urgente",
-    color: "bg-red-600",
+    name: "URGENTE",
+    color: "bg-red-700",
   },
   {
-    name: "Inactivo",
+    name: "INACTIVO",
     color: "bg-stone-500",
   },
 ];
 
-export const contentStatus = [
+export const contentTracing = [
   {
-    name: "Acepta cargo",
+    name: "ACEPTA_CARGO",
     color: "bg-stone-900",
   },
   {
-    name: "Acto pericial realizado",
+    name: "ACTO_PERICIAL_REALIZADO",
     color: "bg-green-900",
   },
   {
-    name: "Pericia realizada",
-    color: "bg-blue-500",
+    name: "PERICIA_REALIZADA",
+    color: "bg-blue-600",
   },
   {
-    name: "Sentencia o convenio de partes",
+    name: "SENTENCIA_O_CONVENIO_DE_PARTES",
     color: "bg-blue-900",
   },
   {
-    name: "Honorarios regulados",
+    name: "HONORARIOS_REGULADOS",
     color: "bg-yellow-700",
   },
   {
-    name: "En tratativa de cobro",
-    color: "bg-purple-500",
+    name: "EN_TRATATIVA_DE_COBRO",
+    color: "bg-purple-700",
   },
   {
-    name: "Cobrado",
-    color: "bg-purple-700",
+    name: "COBRADO",
+    color: "bg-purple-900",
   },
 ];

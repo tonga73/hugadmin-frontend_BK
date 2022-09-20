@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { getRecords } from "../actions/records.actions";
 
-import { contentStatus, contentPriority } from "../../utils/recordColors";
+import { contentTracing, contentPriority } from "../../utils/recordColors";
 
 const initialState = {
-  queryStatus: "",
+  status: "",
   records: [],
   filteredRecords: [],
   record: {},
   recordColors: {
     priority: contentPriority,
-    status: contentStatus,
+    tracing: contentTracing,
   },
 };
 
@@ -20,11 +20,10 @@ export const recordsSlice = createSlice({
   initialState,
   reducers: {
     setRecord: (state, action) => {
-      state.queryStatus = action.payload.queryStatus;
-      state.record = action.payload.record;
+      state.record = action.payload;
     },
-    setRecordsQueryStatus: (state, action) => {
-      state.queryStatus = action.payload;
+    setRecordsStatus: (state, action) => {
+      state.status = action.payload;
     },
     setFilteredRecords: (state, action) => {
       state.filteredRecords = action.payload;
@@ -33,23 +32,23 @@ export const recordsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getRecords.pending, (state) => {
-        state.queryStatus = "loading";
+        state.status = "loading";
       })
       .addCase(getRecords.fulfilled, (state, action) => {
-        state.queryStatus = "success";
-        state.records = action.payload;
+        state.status = "success";
+        state.records = action.payload.slice().reverse();
         state.filteredRecords = action.payload.slice().reverse();
       })
       .addCase(getRecords.rejected, (state, action) => {
-        state.queryStatus = "error";
+        state.status = "error";
       });
   },
 });
 
-export const { setRecordsQueryStatus, setFilteredRecords, setRecord } =
+export const { setRecordsStatus, setFilteredRecords, setRecord } =
   recordsSlice.actions;
 
-export const selectRecordsQueryStatus = (state) => state.records.queryStatus;
+export const selectRecordsStatus = (state) => state.records.status;
 
 export const selectRecords = (state) => state.records.records;
 
@@ -60,7 +59,8 @@ export const selectFilteredRecords = (state) => state.records.filteredRecords;
 export const selectColorsPriority = (state) =>
   state.records.recordColors.priority;
 
-export const selectColorsStatus = (state) => state.records.recordColors.status;
+export const selectColorsTracing = (state) =>
+  state.records.recordColors.tracing;
 
 export const filterRecords = (search) => (dispatch, getState) => {
   const records = selectRecords(getState());

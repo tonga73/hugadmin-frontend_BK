@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
+import { Input, Kbd, Button } from "react-daisyui";
+
 import { filterRecords } from "../store/slices/records.slice";
 
 export function SearchBar() {
@@ -20,39 +22,36 @@ export function SearchBar() {
   };
 
   return (
-    <div className="form-control w-full">
-      <div className="input-group w-full">
-        <input
-          onChange={onChangeHandler}
-          onKeyUp={handleKeyPress}
-          value={inputValue}
-          type="text"
-          placeholder="Search…"
-          className="input input-bordered w-full"
-        />
-        <button
-          onClick={() => {
-            setInputValue("");
-            dispatch(filterRecords(""));
-          }}
-          className="btn btn-square"
+    <div className="input-group w-full">
+      <Input
+        onChange={onChangeHandler}
+        onKeyUp={handleKeyPress}
+        value={inputValue}
+        type="text"
+        placeholder="Buscar..."
+        className="w-full"
+      />
+      <Button
+        onClick={() => {
+          setInputValue("");
+          dispatch(filterRecords(""));
+        }}
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-      </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </Button>
     </div>
   );
 }

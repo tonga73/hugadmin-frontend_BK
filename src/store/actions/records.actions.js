@@ -15,7 +15,7 @@ export const getRecords = createAsyncThunk(
   async ({ rejectWithValue }) => {
     const response = await fetchGetRecords();
 
-    if (response.queryStatus === "error") {
+    if (response.status === "error") {
       return rejectWithValue(response.msg);
     }
 
@@ -28,12 +28,11 @@ export const getRecord = createAsyncThunk(
   async (record, { rejectWithValue, dispatch }) => {
     const response = await fetchGetRecord(record);
 
-    if (response.queryStatus === "error") {
+    if (response.status === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setRecord({ queryStatus: "success", record: response }));
-    return response;
+    dispatch(setRecord(response));
   }
 );
 
@@ -42,11 +41,11 @@ export const newRecord = createAsyncThunk(
   async (record, { rejectWithValue, dispatch }) => {
     const response = await fetchNewRecord(record);
 
-    if (response.queryStatus === "error") {
+    if (response.status === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setRecord({ queryStatus: "created", record: response }));
+    dispatch(setRecord({ status: "created", record: response }));
   }
 );
 
@@ -55,11 +54,11 @@ export const removeRecord = createAsyncThunk(
   async (recordId, { rejectWithValue, dispatch }) => {
     const response = await fetchDeleteRecord(recordId);
 
-    if (response.queryStatus === "error") {
+    if (response.status === "error") {
       return rejectWithValue(response.msg);
     }
 
-    dispatch(setRecord({ queryStatus: "deleted", record: response }));
+    dispatch(setRecord({ status: "deleted", record: response }));
   }
 );
 
@@ -68,7 +67,7 @@ export const editRecord = createAsyncThunk(
   async (record, { rejectWithValue }) => {
     const response = await fetchEditRecord(record);
 
-    if (response.queryStatus === "error") {
+    if (response.status === "error") {
       return rejectWithValue(response.msg);
     }
 

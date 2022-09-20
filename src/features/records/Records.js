@@ -1,75 +1,102 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import Spinner from "../../commons/Spinner";
+import { ButtonGroup, Button, Badge } from "react-daisyui";
+
+import { XyzTransitionGroup } from "@animxyz/react";
 
 import {
   selectFilteredRecords,
-  selectRecordsQueryStatus,
-  setRecordsQueryStatus,
+  selectRecordsStatus,
+  setRecordsStatus,
   selectRecord,
+  filterRecords,
+  selectColorsTracing,
 } from "../../store/slices/records.slice";
 
 import { getRecords } from "../../store/actions/records.actions";
 
-export function Records() {
+export default () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const records = useSelector(selectFilteredRecords);
   const record = useSelector(selectRecord);
   const selectedRecordId = record.id;
-  const recordsQueryStatus = useSelector(selectRecordsQueryStatus);
+  const recordsStatus = useSelector(selectRecordsStatus);
+  const contentTracing = useSelector(selectColorsTracing);
 
   const goToRecord = (value) => {
     navigate(`record/${value}`);
   };
 
   useEffect(() => {
-    if (recordsQueryStatus === "created") {
+    if (recordsStatus === "created") {
       navigate(`record/${selectedRecordId}`);
       dispatch(getRecords({}));
-    } else if (recordsQueryStatus === "deleted") {
+    } else if (recordsStatus === "deleted") {
       navigate(`/`);
       dispatch(getRecords({}));
     }
-  }, [recordsQueryStatus, dispatch, navigate, selectedRecordId]);
+  }, [recordsStatus, dispatch, navigate, selectedRecordId]);
 
   useEffect(() => {
     if (
-      recordsQueryStatus === "success" ||
-      recordsQueryStatus === "created" ||
-      recordsQueryStatus === "deleted"
+      recordsStatus === "success" ||
+      recordsStatus === "created" ||
+      recordsStatus === "deleted"
     ) {
-      dispatch(setRecordsQueryStatus(""));
+      dispatch(setRecordsStatus(""));
     }
-  }, [recordsQueryStatus, dispatch]);
+  }, [recordsStatus, dispatch]);
+
+  const generateTracingColors = (value) => {
+    const tracing = contentTracing.find((tracing) => tracing.name === value);
+
+    return tracing.color;
+  };
 
   return (
-    <ul className="menu bg-base-100 w-[97%] h-full self-center rounded-box">
-      <li className="menu-title py-1.5 font-bold opacity-50">{`(${
-        records.length
-      }) EXPEDIENTE${records.length > 1 ? "S" : ""}`}</li>
-      {recordsQueryStatus === "loading" ? (
-        <Spinner />
+    <>
+      {recordsStatus === "loading" ? (
+        <Button loading={recordsStatus === "loading"} fullWidth />
       ) : (
-        records.map((record, index) => {
-          return (
-            <li key={index}>
-              <button
-                className={`${selectedRecordId === record.id ? "" : ""}`}
-                key={index}
-                onClick={() => {
-                  goToRecord(record.id);
-                }}
-              >
-                {record.order} | {`${record.title.substring(0, 30)} ...`}
-              </button>
-            </li>
-          );
-        })
+        <XyzTransitionGroup
+          appear
+          duration="auto"
+          xyz="fade flip-left origin-left duration-5 appear-stagger"
+        >
+          <ButtonGroup vertical className="gap-y-1.5">
+            {records.map((record, index) => (
+              <div key={index} className="flex w-full items-center gap-0.5">
+                <Badge
+                  onClick={() => {
+                    dispatch(filterRecords(record.tracing));
+                    navigate(`record/${record.id}`);
+                  }}
+                  animation
+                  className={`flex-none cursor-pointer opacity-50 hover:opacity-100 ${generateTracingColors(
+                    record.tracing
+                  )}`}
+                />
+                <Button
+                  onClick={() => goToRecord(record.id)}
+                  active={record.id === selectedRecordId}
+                  color="ghost"
+                  animation={true}
+                  size="sm"
+                  className="truncate inline-block text-base flex-1"
+                >
+                  <span className="px-1.5">
+                    {record.order} | {record.name}
+                  </span>
+                </Button>
+              </div>
+            ))}
+          </ButtonGroup>
+        </XyzTransitionGroup>
       )}
-    </ul>
+    </>
   );
-}
+};

@@ -21,14 +21,7 @@ function App() {
     <>
       <AuthProvider>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <MainLayout />
-              </ProtectedRoute>
-            }
-          >
+          <Route path="/" element={<MainLayout />}>
             <Route index element={<Stats />} />
             <Route path="record/:id" element={<Record />} />
             <Route path="new-record" element={<NewRecord />} />

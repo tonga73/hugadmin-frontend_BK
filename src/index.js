@@ -5,7 +5,7 @@ import { store } from "./store/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-
+import "@animxyz/core";
 import { BrowserRouter } from "react-router-dom";
 
 const container = document.getElementById("root");

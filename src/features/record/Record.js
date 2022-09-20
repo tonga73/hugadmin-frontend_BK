@@ -3,35 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import Spinner from "../../commons/Spinner";
-import { Select, Form } from "../../commons/Form";
+import Form, { Select } from "../../commons/Form";
 
 import { getRecord, editRecord } from "../../store/actions/records.actions";
 import {
   selectRecord,
   selectColorsPriority,
-  selectColorsStatus,
+  selectColorsTracing,
 } from "../../store/slices/records.slice";
 
-import Tracings from "../tracings/Tracings";
-
-export default function Record() {
+export default () => {
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
 
   const record = useSelector(selectRecord);
-
   const contentPriority = useSelector(selectColorsPriority);
-  const contentStatus = useSelector(selectColorsStatus);
+  const contentTracing = useSelector(selectColorsTracing);
 
-  const [selectedStatus, setSelectedStatus] = useState();
+  const [selectedTracing, setSelectedTracing] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
 
   const onSubmit = async (value, name) => {
     // debugger;
-    if (name === "status") {
-      const status = contentStatus.find((status) => status.name === value);
-      setSelectedStatus(status);
+    if (name === "tracing") {
+      const tracing = contentTracing.find((tracing) => tracing.name === value);
+      setSelectedTracing(tracing);
     }
     if (name === "priority") {
       const priority = contentPriority.find(
@@ -39,7 +36,7 @@ export default function Record() {
       );
       setSelectedPriority(priority);
     }
-    await dispatch(
+    dispatch(
       editRecord({
         id: record.id,
         req: { [name]: value },
@@ -53,23 +50,23 @@ export default function Record() {
 
   useEffect(() => {
     if (record) {
-      const status = contentStatus.find(
-        (status) => status.name === record.status
+      const tracing = contentTracing.find(
+        (tracing) => tracing.name === record.tracing
       );
       const priority = contentPriority.find(
         (priority) => priority.name === record.priority
       );
       setSelectedPriority(priority);
-      setSelectedStatus(status);
+      setSelectedTracing(tracing);
     }
-  }, [record, contentPriority, contentStatus]);
+  }, [record, contentPriority, contentTracing]);
 
   return (
     <>
-      {!!Object.keys(record).length ? (
+      {!!Object.keys(record).length && record.name !== undefined ? (
         <div
           className={`flex gap-x-1.5 h-full ${
-            Number(id) !== record.id && "animate-pulse"
+            Number(id) !== record.id && "animate-pulse transition-all"
           }`}
         >
           <div className="w-2/3 h-full">
@@ -87,28 +84,28 @@ export default function Record() {
                 />
                 <Select
                   styles={`input input-bordered input-md font-bold uppercase w-full ${
-                    selectedStatus && selectedStatus.color
+                    selectedTracing && selectedTracing.color
                   }`}
-                  defaultValue={record.status}
-                  name="status"
-                  options={contentStatus.map((status) => status.name)}
-                  onChange={(e) => onSubmit(e.target.value, "status")}
-                  value={selectedStatus && selectedStatus.name}
+                  defaultValue={record.tracing}
+                  name="tracing"
+                  options={contentTracing.map((tracing) => tracing.name)}
+                  onChange={(e) => onSubmit(e.target.value, "tracing")}
+                  value={selectedTracing && selectedTracing.name}
                 />
               </Form>
               <div className="text-5xl font-extrabold text-neutral-focus">
                 {record.order}
               </div>
               <div className="text-5xl font-extrabold text-neutral-focus text-opacity-60">
-                {record.title.substring(0, 53)}
+                {record.name.substring(0, 53)}
                 <span
                   className="tooltip tooltip-bottom cursor-default z-30 text-left"
-                  data-tip={record.title}
+                  data-tip={record.name}
                 >
                   ...
                 </span>
               </div>
-              {record.district && (
+              {record.office && (
                 <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
                   <div className="card-body flex-row items-center">
                     <svg
@@ -125,20 +122,17 @@ export default function Record() {
                         d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
                       ></path>
                     </svg>
-                    <div className="card-title">{record.district.name} | </div>
-                    <div className="uppercase">{record.district.city}</div>
+                    <div className="card-title">{record.office.name} | </div>
                   </div>
                 </div>
               )}
             </div>
           </div>
-          <div className="w-1/3 flex flex-col gap-y-1.5">
-            <Tracings />
-          </div>
+          <div className="w-1/3 flex flex-col gap-y-1.5">LOTRACIN</div>
         </div>
       ) : (
         <Spinner />
       )}
     </>
   );
-}
+};

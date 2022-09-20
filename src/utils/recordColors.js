@@ -37,7 +37,7 @@ export const contentTracing = [
   },
   {
     name: "PERICIA_REALIZADA",
-    color: "bg-blue-600",
+    color: "bg-blue-500",
   },
   {
     name: "SENTENCIA_O_CONVENIO_DE_PARTES",
@@ -49,7 +49,7 @@ export const contentTracing = [
   },
   {
     name: "EN_TRATATIVA_DE_COBRO",
-    color: "bg-purple-700",
+    color: "bg-purple-600",
   },
   {
     name: "COBRADO",

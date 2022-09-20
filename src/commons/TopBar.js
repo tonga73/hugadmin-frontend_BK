@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import Modal from "./Modal";
 
-import { selectRecord, setRecord } from "../store/slices/records.slice";
+import {
+  selectRecord,
+  setRecord,
+  setRecordsStatus,
+} from "../store/slices/records.slice";
 import { setTracing } from "../store/slices/tracings.slice";
 
 import { removeRecord } from "../store/actions/records.actions";
@@ -17,8 +21,8 @@ export function TopBar() {
   const selectedRecordId = record.id;
 
   const goToStats = () => {
-    dispatch(setRecord({ status: "", record: {} }));
-    dispatch(setTracing({ queryStatus: "", tracings: [], tracing: {} }));
+    dispatch(setRecordsStatus(""));
+    dispatch(setRecord({}));
     navigate(`/`);
   };
 
@@ -143,7 +147,10 @@ export function TopBar() {
             <>
               <label
                 htmlFor="remove-record-modal"
-                onClick={() => dispatch(removeRecord(selectedRecordId))}
+                onClick={() => {
+                  dispatch(setRecordsStatus("deleting"));
+                  dispatch(removeRecord(selectedRecordId));
+                }}
                 className="btn btn-error"
               >
                 <svg

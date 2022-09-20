@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { Card } from "react-daisyui";
+
 import Spinner from "../../commons/Spinner";
 import Form, { Select } from "../../commons/Form";
 
 import { getRecord, editRecord } from "../../store/actions/records.actions";
+
 import {
   selectRecord,
   selectColorsPriority,
   selectColorsTracing,
+  selectRecordsStatus,
 } from "../../store/slices/records.slice";
+import { selectCourt } from "../../store/slices/courts.slice";
 
 export default () => {
   const dispatch = useDispatch();
@@ -18,8 +23,10 @@ export default () => {
   const { id } = params;
 
   const record = useSelector(selectRecord);
+  const recordsStatus = useSelector(selectRecordsStatus);
   const contentPriority = useSelector(selectColorsPriority);
   const contentTracing = useSelector(selectColorsTracing);
+  const court = useSelector(selectCourt);
 
   const [selectedTracing, setSelectedTracing] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
@@ -66,7 +73,8 @@ export default () => {
       {!!Object.keys(record).length && record.name !== undefined ? (
         <div
           className={`flex gap-x-1.5 h-full ${
-            Number(id) !== record.id && "animate-pulse transition-all"
+            Number(id) !== record.id ||
+            (recordsStatus === "deleting" && "animate-pulse transition-all")
           }`}
         >
           <div className="w-2/3 h-full">
@@ -96,7 +104,7 @@ export default () => {
               <div className="text-5xl font-extrabold text-neutral-focus">
                 {record.order}
               </div>
-              <div className="text-5xl font-extrabold text-neutral-focus text-opacity-60">
+              <div className="text-5xl font-extrabold text-neutral-focus text-opacity-90">
                 {record.name.substring(0, 53)}
                 <span
                   className="tooltip tooltip-bottom cursor-default z-30 text-left"
@@ -105,26 +113,43 @@ export default () => {
                   ...
                 </span>
               </div>
-              {record.office && (
-                <div className="card card-compact card-bordered shadow-xl font-bold text-neutral-focus">
-                  <div className="card-body flex-row items-center">
-                    <svg
-                      className="w-10 h-10"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                      ></path>
-                    </svg>
-                    <div className="card-title">{record.office.name} | </div>
-                  </div>
-                </div>
+              {!!Object.keys(court).length && !!record.office && (
+                <Card
+                  className="shadow-xl font-bold text-neutral-focus"
+                  compact
+                  bordered
+                >
+                  <Card.Body className="flex-row items-center">
+                    <div className="flex-none">
+                      <svg
+                        className="w-16 h-16"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div className="flex-1 items-center gap-x-3">
+                      <div className="card-title">
+                        {court.name} |{" "}
+                        <span className="uppercase text-sm">
+                          {record.office.name} Secretaría
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {court.district.name} ~ &nbsp;
+                        <span className="uppercase">{court.district.city}</span>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
               )}
             </div>
           </div>

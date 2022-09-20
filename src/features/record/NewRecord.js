@@ -8,6 +8,7 @@ import {
   setRecord,
   selectColorsPriority,
   selectColorsTracing,
+  setRecordsStatus,
 } from "../../store/slices/records.slice";
 
 import { newRecord } from "../../store/actions/records.actions";
@@ -20,11 +21,13 @@ export default function NewRecord() {
   const contentTracing = useSelector(selectColorsTracing).map((e) => e.name);
 
   const onSubmit = (data) => {
+    dispatch(setRecordsStatus("creating"));
     dispatch(newRecord(data));
   };
 
   useEffect(() => {
-    dispatch(setRecord({ status: "creating", record: {} }));
+    dispatch(setRecordsStatus("creating"));
+    dispatch(setRecord({}));
   }, [dispatch]);
 
   return (

@@ -36,7 +36,7 @@ export const recordsSlice = createSlice({
       })
       .addCase(getRecords.fulfilled, (state, action) => {
         state.status = "success";
-        state.records = action.payload.slice().reverse();
+        state.records = action.payload;
         state.filteredRecords = action.payload.slice().reverse();
       })
       .addCase(getRecords.rejected, (state, action) => {

@@ -22,7 +22,7 @@ export function SearchBar() {
   };
 
   return (
-    <div className="input-group w-full">
+    <div className="input-group gap-x-1 w-full">
       <Input
         onChange={onChangeHandler}
         onKeyUp={handleKeyPress}

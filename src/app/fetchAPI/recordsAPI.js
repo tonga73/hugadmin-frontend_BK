@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosClient } from "../../app/axiosClient";
 
 export async function fetchGetRecords() {
@@ -35,7 +34,7 @@ export async function fetchEditRecord({ id, req }) {
   try {
     const { data } = await axiosClient.patch(`/records/${id}`, req);
 
-    return await data;
+    return data;
   } catch (error) {
     console.log(error);
   }

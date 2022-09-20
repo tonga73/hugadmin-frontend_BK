@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ButtonGroup, Button, Badge } from "react-daisyui";
 
-import { XyzTransitionGroup } from "@animxyz/react";
+import { XyzTransitionGroup, xyz, XyzTransition } from "@animxyz/react";
 
 import {
   selectFilteredRecords,
@@ -31,6 +31,12 @@ export default () => {
     navigate(`record/${value}`);
   };
 
+  const xyzUtilities = {
+    down: false,
+    small: false,
+    "rotate-right": false,
+  };
+
   useEffect(() => {
     if (recordsStatus === "created") {
       navigate(`record/${selectedRecordId}`);
@@ -45,7 +51,8 @@ export default () => {
     if (
       recordsStatus === "success" ||
       recordsStatus === "created" ||
-      recordsStatus === "deleted"
+      recordsStatus === "deleted" ||
+      recordsStatus === "edited"
     ) {
       dispatch(setRecordsStatus(""));
     }
@@ -59,15 +66,27 @@ export default () => {
 
   return (
     <>
+      <div className="py-1.5 font-bold opacity-50">
+        {`(${records.length}) EXPEDIENTE${records.length > 1 ? "S" : ""}`}
+      </div>
       {recordsStatus === "loading" ? (
-        <Button loading={recordsStatus === "loading"} fullWidth />
-      ) : (
-        <XyzTransitionGroup
-          appear
-          duration="auto"
-          xyz="fade flip-left origin-left duration-5 appear-stagger"
+        <XyzTransition
+          appear={recordsStatus === "loading"}
+          xyz={xyz("fade", xyzUtilities)}
         >
-          <ButtonGroup vertical className="gap-y-1.5">
+          <Button
+            color="ghost"
+            loading={recordsStatus === "loading"}
+            fullWidth
+          />
+        </XyzTransition>
+      ) : (
+        <ButtonGroup vertical className="gap-y-1.5">
+          <XyzTransitionGroup
+            appear
+            duration="auto"
+            xyz="fade small origin-left appear-stagger"
+          >
             {records.map((record, index) => (
               <div key={index} className="flex w-full items-center gap-0.5">
                 <Badge
@@ -75,7 +94,7 @@ export default () => {
                     dispatch(filterRecords(record.tracing));
                     navigate(`record/${record.id}`);
                   }}
-                  animation
+                  animation="true"
                   className={`flex-none cursor-pointer opacity-50 hover:opacity-100 ${generateTracingColors(
                     record.tracing
                   )}`}
@@ -84,7 +103,7 @@ export default () => {
                   onClick={() => goToRecord(record.id)}
                   active={record.id === selectedRecordId}
                   color="ghost"
-                  animation={true}
+                  animation="true"
                   size="sm"
                   className="truncate inline-block text-base flex-1"
                 >
@@ -94,8 +113,8 @@ export default () => {
                 </Button>
               </div>
             ))}
-          </ButtonGroup>
-        </XyzTransitionGroup>
+          </XyzTransitionGroup>
+        </ButtonGroup>
       )}
     </>
   );

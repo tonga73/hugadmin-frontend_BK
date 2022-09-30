@@ -81,7 +81,7 @@ export function TopBar() {
       }`}
     >
       <div className="flex-none">
-        <button className="btn btn-sm btn-outline btn-info">
+        <button className="hidden btn btn-sm btn-outline btn-info">
           <svg
             className="w-6 h-6"
             fill="none"

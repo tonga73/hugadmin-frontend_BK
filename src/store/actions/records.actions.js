@@ -35,6 +35,7 @@ export const getRecord = createAsyncThunk(
     }
 
     dispatch(setRecord(response));
+    return response;
   }
 );
 

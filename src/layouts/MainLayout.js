@@ -15,7 +15,7 @@ export default () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   return (
-    <div className="container mx-auto grid grid-cols-12 h-screen overflow-y-hidden bg-base-200">
+    <div className="container mx-auto grid grid-cols-12 h-screen overflow-y-hidden bg-base-300">
       {/* Panel lateral del dashboard */}
       <div className="col-span-4 px-1.5 max-h-screen overflow-y-auto overflow-hidden">
         <SidePanel>
@@ -38,7 +38,7 @@ export default () => {
         <div className="flex-shrink">
           <TopBar />
         </div>
-        <div className="w-[98%] h-full bg-base-100 p-1.5 place-self-center shadow-primary-content shadow-sm rounded-md">
+        <div className="w-[98%] h-full bg-base-200 p-1.5 place-self-center shadow-primary-content shadow-sm rounded-md">
           <Outlet />
         </div>
       </div>

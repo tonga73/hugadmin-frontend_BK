@@ -9,7 +9,6 @@ import {
   setRecord,
   setRecordsStatus,
 } from "../store/slices/records.slice";
-import { setTracing } from "../store/slices/tracings.slice";
 
 import { removeRecord } from "../store/actions/records.actions";
 
@@ -77,7 +76,7 @@ export function TopBar() {
 
   return (
     <div
-      className={`navbar gap-x-1.5 bg-base-100 opacity-50 hover:opacity-100 ${
+      className={`navbar gap-x-1.5 bg-base-200 opacity-50 hover:opacity-100 ${
         !!Object.keys(record).length ? "" : "pointer-events-none opacity-10"
       }`}
     >

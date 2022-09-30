@@ -8,11 +8,14 @@ import districtsSlice from "./slices/districts.slice";
 
 import courtsSlice from "./slices/courts.slice";
 
+import notesSlice from "./slices/notes.slice";
+
 export const store = configureStore({
   reducer: {
     users: usersSlice,
     records: recordsSlice,
     districts: districtsSlice,
     courts: courtsSlice,
+    notes: notesSlice,
   },
 });

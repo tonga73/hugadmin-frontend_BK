@@ -29,14 +29,6 @@ export default function NewRecord() {
     formState: { errors },
   } = useForm();
 
-  console.log(watch("office")); // watch input value by passing the name of it
-
-  const [visible, setVisible] = useState(false);
-
-  const toggleVisible = () => {
-    setVisible(!visible);
-  };
-
   const contentPriority = useSelector(selectColorsPriority);
   const contentTracing = useSelector(selectColorsTracing);
   const courts = useSelector(selectCourts);
@@ -146,7 +138,7 @@ export default function NewRecord() {
           />
 
           {errors.order && (
-            <span className="mt-1 p-0.5 bg-error font-bold">
+            <span className="mt-1 p-0.5 bg-error font-bold text-xs uppercase">
               Este campo es obligatorio.
             </span>
           )}
@@ -164,7 +156,7 @@ export default function NewRecord() {
           />
 
           {errors.order && (
-            <span className="mt-1 p-0.5 bg-error font-bold">
+            <span className="mt-1 p-0.5 bg-error font-bold text-xs uppercase">
               Este campo es obligatorio.
             </span>
           )}

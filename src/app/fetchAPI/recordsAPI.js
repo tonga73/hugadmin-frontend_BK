@@ -47,18 +47,4 @@ export async function fetchDeleteRecord(id) {
   } catch (error) {
     console.log(error);
   }
-  // return axiosClient
-  //   .delete(`/record/${req}`)
-  //   .then(({ data }) => {
-  //     return data;
-  //   })
-  //   .catch((err) => {
-  //     const { msg } = err.response.data;
-  //     console.log(err);
-  //     const res = {
-  //       status: "error",
-  //       msg,
-  //     };
-  //     return res;
-  //   });
 }

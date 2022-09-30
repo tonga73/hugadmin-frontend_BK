@@ -7,6 +7,8 @@ import { Card, Button } from "react-daisyui";
 import Spinner from "../../commons/Spinner";
 import Form, { Select } from "../../commons/Form";
 
+import Notes from "../notes/Notes";
+
 import { getRecord, editRecord } from "../../store/actions/records.actions";
 
 import {
@@ -110,13 +112,13 @@ export default () => {
               </Form>
               <div
                 xyz="fade small"
-                className="text-5xl font-extrabold text-neutral-focus xyz-in"
+                className="text-5xl font-extrabold text-base-100 xyz-in"
               >
                 {record.order}
               </div>
               <div
                 xyz="fade small"
-                className="text-5xl font-extrabold text-neutral-focus text-opacity-90 xyz-in"
+                className="text-5xl font-extrabold text-base-100 xyz-in"
               >
                 {record.name.substring(0, 53)}
                 <span
@@ -183,7 +185,9 @@ export default () => {
             </div>
           </div>
           {/* SECCION LATERAL: NOTAS */}
-          <div className="w-1/3 flex flex-col gap-y-1.5">LOTRACIN</div>
+          <div className="w-1/3 flex flex-col gap-y-1.5 overflow-clip">
+            <Notes record={record} />
+          </div>
         </div>
       ) : (
         <Spinner />

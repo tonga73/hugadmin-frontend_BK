@@ -8,9 +8,10 @@ import { Form, Input, Navbar, Button } from "react-daisyui";
 
 import {
   setRecord,
+  setRecordsStatus,
+  selectRecordsStatus,
   selectColorsPriority,
   selectColorsTracing,
-  setRecordsStatus,
 } from "../../store/slices/records.slice";
 import { selectCourts, selectCourt } from "../../store/slices/courts.slice";
 
@@ -28,6 +29,7 @@ export default function NewRecord() {
     formState: { errors },
   } = useForm();
 
+  const recordStatus = useSelector(selectRecordsStatus);
   const contentPriority = useSelector(selectColorsPriority);
   const contentTracing = useSelector(selectColorsTracing);
   const courts = useSelector(selectCourts);
@@ -64,37 +66,38 @@ export default function NewRecord() {
   }, [dispatch]);
 
   return (
-    <div className="px-3 py-1.5 h-full flex flex-col gap-y-3">
-      <Navbar>
-        <Navbar.Start>
-          <Button
-            color="ghost"
-            shape="circle"
-            size="sm"
-            onClick={() => navigate(-1)}
+    <div
+      className={`px-3 py-1.5 h-full flex flex-col gap-y-3 ${
+        recordStatus === "creating" && "pointer-events-none animate-pulse"
+      }`}
+    >
+      <div className="w-full flex gap-x-3">
+        <Button
+          color="ghost"
+          shape="square"
+          size="sm"
+          onClick={() => navigate(-1)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              ></path>
-            </svg>
-          </Button>
-        </Navbar.Start>
-        <Navbar.Center>
-          <h3 className="text-right font-extrabold text-3xl uppercase flex-none opacity-30">
-            Crear expediente
-          </h3>
-        </Navbar.Center>
-      </Navbar>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+        </Button>
+        <div className="divider divider-vertical flex-1"></div>
+        <h3 className="text-right font-extrabold text-3xl uppercase flex-none opacity-30">
+          Crear expediente
+        </h3>
+      </div>
       <Form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col h-full gap-1.5 p-1"

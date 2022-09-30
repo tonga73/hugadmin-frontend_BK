@@ -125,42 +125,45 @@ export default function Record() {
                 )}
               </div>
               {/* CARD DE JUZGADO */}
-              <Card
-                xyz="fade small"
-                className={`shadow-xl font-bold text-neutral-focus  xyz-in ${
-                  courtStatus === "loading" && "h-24 bg-secondary animate-pulse"
-                } ${!record.office && "hidden"}`}
-                compact
-                bordered
-              >
-                <Card.Body className="flex-row items-center">
-                  <div className="flex-none">
-                    <svg
-                      className="w-16 h-16"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="flex-1 items-center gap-x-3">
-                    <div className="card-title">
-                      {record.court.name} |
-                      <span className="uppercase text-sm">
-                        {record.court.city}
-                      </span>
+              {record.court !== undefined && (
+                <Card
+                  xyz="fade small"
+                  className={`shadow-xl font-bold text-neutral-focus  xyz-in ${
+                    courtStatus === "loading" &&
+                    "h-24 bg-secondary animate-pulse"
+                  } ${!record.office && "hidden"}`}
+                  compact
+                  bordered
+                >
+                  <Card.Body className="flex-row items-center">
+                    <div className="flex-none">
+                      <svg
+                        className="w-16 h-16"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                        ></path>
+                      </svg>
                     </div>
-                    <small>SECRETARIA {record.office}</small>
-                  </div>
-                </Card.Body>
-              </Card>
+                    <div className="flex-1 items-center gap-x-3">
+                      <div className="card-title">
+                        {record.court.name} |
+                        <span className="uppercase text-sm">
+                          {record.court.city}
+                        </span>
+                      </div>
+                      <small>SECRETARIA {record.office}</small>
+                    </div>
+                  </Card.Body>
+                </Card>
+              )}
             </div>
           </div>
           {/* SECCION LATERAL: NOTAS */}

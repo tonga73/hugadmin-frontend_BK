@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 
-import { Form, Input, Radio, Navbar, Button, Modal } from "react-daisyui";
+import { Form, Input, Navbar, Button } from "react-daisyui";
 
 import {
   setRecord,
@@ -14,7 +14,7 @@ import {
 } from "../../store/slices/records.slice";
 import { selectCourts, selectCourt } from "../../store/slices/courts.slice";
 
-import { getCourts, getCourt } from "../../store/actions/courts.actions";
+import { getCourts } from "../../store/actions/courts.actions";
 
 import { newRecord } from "../../store/actions/records.actions";
 
@@ -25,7 +25,6 @@ export default function NewRecord() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 

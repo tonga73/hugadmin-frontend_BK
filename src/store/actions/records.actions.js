@@ -9,14 +9,13 @@ import {
 } from "../../app/fetchAPI/recordsAPI";
 
 import { setRecord, setRecordsStatus } from "../slices/records.slice";
-import { selectCourt, setCourt } from "../slices/courts.slice";
+import { setCourt } from "../slices/courts.slice";
 
 import { getCourt } from "./courts.actions";
-import { useSelector } from "react-redux";
 
 export const getRecords = createAsyncThunk(
   "records/fetchGetRecords",
-  async ({ rejectWithValue }) => {
+  async () => {
     const response = await fetchGetRecords();
 
     return response.reverse();
@@ -25,7 +24,7 @@ export const getRecords = createAsyncThunk(
 
 export const getRecord = createAsyncThunk(
   "records/fetchGetRecord",
-  async (record, { rejectWithValue, dispatch }) => {
+  async (record, { dispatch }) => {
     const response = await fetchGetRecord(record);
 
     if (!!response.officeId) {
@@ -41,7 +40,7 @@ export const getRecord = createAsyncThunk(
 
 export const newRecord = createAsyncThunk(
   "records/fetchNewRecord",
-  async (record, { rejectWithValue, dispatch }) => {
+  async (record, { dispatch }) => {
     const response = await fetchNewRecord(record);
 
     dispatch(setRecordsStatus("created"));
@@ -65,7 +64,7 @@ export const removeRecord = createAsyncThunk(
 
 export const editRecord = createAsyncThunk(
   "records/fetchEditRecord",
-  async (record, { rejectWithValue, dispatch }) => {
+  async (record, { dispatch }) => {
     const response = await fetchEditRecord(record);
 
     dispatch(setRecordsStatus("edited"));

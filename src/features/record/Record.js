@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Card, Button } from "react-daisyui";
+import { Card } from "react-daisyui";
 
 import Spinner from "../../commons/Spinner";
 import Form, { Select } from "../../commons/Form";
@@ -15,23 +15,17 @@ import {
   selectRecord,
   selectColorsPriority,
   selectColorsTracing,
-  selectRecordsStatus,
 } from "../../store/slices/records.slice";
-import {
-  selectCourt,
-  selectCourtStatus,
-} from "../../store/slices/courts.slice";
+import { selectCourtStatus } from "../../store/slices/courts.slice";
 
-export default () => {
+export default function Record() {
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
 
   const record = useSelector(selectRecord);
-  const recordsStatus = useSelector(selectRecordsStatus);
   const contentPriority = useSelector(selectColorsPriority);
   const contentTracing = useSelector(selectColorsTracing);
-  const court = useSelector(selectCourt);
   const courtStatus = useSelector(selectCourtStatus);
 
   const [selectedTracing, setSelectedTracing] = useState();
@@ -179,4 +173,4 @@ export default () => {
       )}
     </>
   );
-};
+}

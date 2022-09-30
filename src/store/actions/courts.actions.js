@@ -2,20 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { fetchGetCourts, fetchGetCourt } from "../../app/fetchAPI/courtsAPI";
 
-import { setCourt, setCourts, setCourtsStatus } from "../slices/courts.slice";
+import { setCourt, setCourtsStatus } from "../slices/courts.slice";
 
-export const getCourts = createAsyncThunk(
-  "courts/fetchGetCourts",
-  async ({ rejectWithValue, dispatch }) => {
-    const response = await fetchGetCourts();
+export const getCourts = createAsyncThunk("courts/fetchGetCourts", async () => {
+  const response = await fetchGetCourts();
 
-    return response;
-  }
-);
+  return response;
+});
 
 export const getCourt = createAsyncThunk(
   "courts/fetchGetCourt",
-  async (courtId, { rejectWithValue, dispatch }) => {
+  async (courtId, { dispatch }) => {
     dispatch(setCourtsStatus("loading"));
     const response = await fetchGetCourt(courtId);
 

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 
 import { Button } from "react-daisyui";
@@ -11,7 +10,7 @@ import UserTopBar from "../features/user/UserTopBar";
 import { SearchBar } from "../commons/SearchBar";
 import Records from "../features/records/Records";
 
-export default () => {
+export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   return (
@@ -44,4 +43,4 @@ export default () => {
       </div>
     </div>
   );
-};
+}

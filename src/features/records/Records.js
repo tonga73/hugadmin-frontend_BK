@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { ButtonGroup, Button, Badge } from "react-daisyui";
+import { Button, Badge } from "react-daisyui";
 
 import { XyzTransitionGroup, xyz, XyzTransition } from "@animxyz/react";
 
@@ -14,15 +14,12 @@ import {
   filterRecords,
   selectColorsTracing,
 } from "../../store/slices/records.slice";
-import {
-  selectCourts,
-  selectCourtStatus,
-} from "../../store/slices/courts.slice";
+import { selectCourtStatus } from "../../store/slices/courts.slice";
 
 import { getRecords } from "../../store/actions/records.actions";
 import { setCourtsStatus } from "../../store/slices/courts.slice";
 
-export default () => {
+export default function Records() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,13 +61,7 @@ export default () => {
       dispatch(setRecordsStatus(""));
       dispatch(setCourtsStatus(""));
     }
-  }, [recordsStatus, dispatch]);
-
-  useEffect(() => {
-    if (courtsStatus === "success") {
-      dispatch(setCourtsStatus(""));
-    }
-  }, [courtsStatus, dispatch]);
+  }, [recordsStatus, dispatch, courtsStatus]);
 
   const generateTracingColors = (value) => {
     const tracing = contentTracing.find((tracing) => tracing.name === value);
@@ -131,4 +122,4 @@ export default () => {
       )}
     </>
   );
-};
+}

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getRecord } from "../actions/records.actions";
 import { getCourts } from "../actions/courts.actions";
 
 const initialState = {

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-import { Card, Button, Input, Form } from "react-daisyui";
+import { Card, Button, Input } from "react-daisyui";
 
 import {
   selectNotes,
@@ -12,12 +12,10 @@ import {
 import { newNote, removeNote } from "../../store/actions/notes.actions";
 import { getRecord } from "../../store/actions/records.actions";
 
-export default function ({ record }) {
+export default function Notes({ record }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const [val, setVal] = useState();
-  const ref = useRef(null);
-  console.log(location.pathname.replace("/record/", ""));
 
   const notes = useSelector(selectNotes);
   const notesStatus = useSelector(selectNotesStatus);
@@ -40,7 +38,7 @@ export default function ({ record }) {
       dispatch(setNotesStatus(""));
       dispatch(getRecord(record.id));
     }
-  }, [notesStatus]);
+  }, [notesStatus, dispatch, record]);
 
   return (
     <div

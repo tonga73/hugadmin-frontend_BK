@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Badge } from "react-daisyui";
+import { Button, Badge, Tooltip } from "react-daisyui";
 
 import { XyzTransitionGroup, xyz, XyzTransition } from "@animxyz/react";
 
@@ -93,27 +93,33 @@ export default function Records() {
           className="z-0"
         >
           {records.map((record, index) => (
-            <div key={index} className="flex w-full items-center gap-0.5">
-              <Badge
-                onClick={() => {
-                  dispatch(filterRecords(record.tracing));
-                  navigate(`record/${record.id}`);
-                }}
-                animation="true"
-                className={`flex-none cursor-pointer opacity-50 hover:opacity-100 ${generateTracingColors(
-                  record.tracing
-                )}`}
-              />
+            <div key={index} className="flex w-full items-center gap-0.5 mb-1">
+              <Tooltip
+                message={record.tracing.replace(/_/g, " ")}
+                className="tooltip-right z-10 flex items-center"
+              >
+                <Badge
+                  onClick={() => {
+                    dispatch(filterRecords(record.tracing));
+                    navigate(`record/${record.id}`);
+                  }}
+                  animation="true"
+                  className={`cursor-pointer opacity-50 hover:opacity-100 ${generateTracingColors(
+                    record.tracing
+                  )}`}
+                />
+              </Tooltip>
               <Button
                 onClick={() => goToRecord(record.id)}
                 active={record.id === selectedRecordId}
                 color="ghost"
                 animation="true"
                 size="sm"
-                className="truncate inline-block text-base flex-1"
+                className="truncate inline-block text-left text-base flex-1 hover:-translate-x-5"
               >
                 <span className="px-1.5">
-                  {record.order} | {record.name}
+                  {record.order} |{" "}
+                  <span className="font-normal">{record.name}</span>
                 </span>
               </Button>
             </div>

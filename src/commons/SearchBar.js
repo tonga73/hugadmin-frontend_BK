@@ -29,7 +29,7 @@ export function SearchBar() {
         value={inputValue}
         type="text"
         placeholder="Buscar..."
-        className="w-full"
+        className="w-full bg-base-100"
       />
       <Button
         onClick={() => {

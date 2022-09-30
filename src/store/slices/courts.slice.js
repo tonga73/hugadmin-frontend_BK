@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { getCourts } from "../actions/courts.actions";
+
 const initialState = {
   status: "",
   courts: [],
@@ -21,11 +23,29 @@ export const courtsSlice = createSlice({
       state.filteredCourts = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCourts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getCourts.fulfilled, (state, action) => {
+        state.status = "success";
+        state.courts = action.payload.slice().reverse();
+        state.filteredCourts = action.payload;
+      })
+      .addCase(getCourts.rejected, (state, action) => {
+        state.status = "error";
+      });
+  },
 });
 
 export const { setCourt, setCourtsStatus, setFilteredCourts } =
   courtsSlice.actions;
 
+export const selectCourts = (state) => state.courts.courts;
+
 export const selectCourt = (state) => state.courts.court;
+
+export const selectCourtStatus = (state) => state.courts.status;
 
 export default courtsSlice.reducer;

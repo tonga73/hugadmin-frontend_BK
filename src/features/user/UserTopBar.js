@@ -12,7 +12,7 @@ export default ({ dataTheme, ...args }) => {
         <span className="text-lg font-bold">USER</span>
       </Navbar.Start>
       <Navbar.End>
-        <Dropdown {...args} dataTheme={dataTheme}>
+        <Dropdown horizontal="left" dataTheme={dataTheme}>
           <Dropdown.Toggle color="ghost">
             <svg
               className="w-6 h-6"
@@ -29,7 +29,7 @@ export default ({ dataTheme, ...args }) => {
               />
             </svg>
           </Dropdown.Toggle>
-          <Dropdown.Menu className="w-52">
+          <Dropdown.Menu className="w-52 z-50">
             <Dropdown.Item>Configuraciones</Dropdown.Item>
             <Dropdown.Item onClick={logout}>Cerrar Sesión</Dropdown.Item>
           </Dropdown.Menu>

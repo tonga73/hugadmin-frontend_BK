@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Card } from "react-daisyui";
+import { Card, Button } from "react-daisyui";
 
 import Spinner from "../../commons/Spinner";
 import Form, { Select } from "../../commons/Form";
@@ -15,7 +15,10 @@ import {
   selectColorsTracing,
   selectRecordsStatus,
 } from "../../store/slices/records.slice";
-import { selectCourt } from "../../store/slices/courts.slice";
+import {
+  selectCourt,
+  selectCourtStatus,
+} from "../../store/slices/courts.slice";
 
 export default () => {
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ export default () => {
   const contentPriority = useSelector(selectColorsPriority);
   const contentTracing = useSelector(selectColorsTracing);
   const court = useSelector(selectCourt);
+  const courtStatus = useSelector(selectCourtStatus);
 
   const [selectedTracing, setSelectedTracing] = useState();
   const [selectedPriority, setSelectedPriority] = useState();
@@ -73,15 +77,17 @@ export default () => {
       {!!Object.keys(record).length && record.name !== undefined ? (
         <div
           className={`flex gap-x-1.5 h-full ${
-            Number(id) !== record.id ||
-            (recordsStatus === "deleting" && "animate-pulse transition-all")
+            Number(id) !== record.id &&
+            "animate-pulse pointer-events-none select-none"
           }`}
         >
+          {/* SECCION PRINCIPAL: EXPEDIENTE */}
           <div className="w-2/3 h-full">
             <div className="flex flex-col gap-y-5 p-1.5 bg-base-content rounded-md">
               <Form styles="form-control grid grid-cols-2 gap-3">
                 <Select
-                  styles={`input input-bordered input-md font-bold uppercase w-full  ${
+                  xyz="fade small"
+                  styles={`input input-bordered input-md font-bold uppercase w-full xyz-in ${
                     selectedPriority && selectedPriority.color
                   }`}
                   defaultValue={record.priority}
@@ -91,7 +97,8 @@ export default () => {
                   value={selectedPriority && selectedPriority.name}
                 />
                 <Select
-                  styles={`input input-bordered input-md font-bold uppercase w-full ${
+                  xyz="fade small"
+                  styles={`input input-bordered input-md font-bold uppercase w-full xyz-in ${
                     selectedTracing && selectedTracing.color
                   }`}
                   defaultValue={record.tracing}
@@ -101,10 +108,16 @@ export default () => {
                   value={selectedTracing && selectedTracing.name}
                 />
               </Form>
-              <div className="text-5xl font-extrabold text-neutral-focus">
+              <div
+                xyz="fade small"
+                className="text-5xl font-extrabold text-neutral-focus xyz-in"
+              >
                 {record.order}
               </div>
-              <div className="text-5xl font-extrabold text-neutral-focus text-opacity-90">
+              <div
+                xyz="fade small"
+                className="text-5xl font-extrabold text-neutral-focus text-opacity-90 xyz-in"
+              >
                 {record.name.substring(0, 53)}
                 <span
                   className="tooltip tooltip-bottom cursor-default z-30 text-left"
@@ -113,46 +126,63 @@ export default () => {
                   ...
                 </span>
               </div>
-              {!!Object.keys(court).length && !!record.office && (
-                <Card
-                  className="shadow-xl font-bold text-neutral-focus"
-                  compact
-                  bordered
-                >
-                  <Card.Body className="flex-row items-center">
-                    <div className="flex-none">
-                      <svg
-                        className="w-16 h-16"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                        ></path>
-                      </svg>
-                    </div>
-                    <div className="flex-1 items-center gap-x-3">
-                      <div className="card-title">
-                        {court.name} |{" "}
-                        <span className="uppercase text-sm">
-                          {record.office.name} Secretaría
-                        </span>
+              {/* CARD DE JUZGADO */}
+              {courtStatus === "loading" ? (
+                <Button
+                  loading={true}
+                  size="lg"
+                  className="opacity-50"
+                ></Button>
+              ) : (
+                !!Object.keys(court).length &&
+                !!record.office && (
+                  <Card
+                    xyz="fade small"
+                    className={`shadow-xl font-bold text-neutral-focus  xyz-in ${
+                      courtStatus === "loading" &&
+                      "h-24 bg-secondary animate-pulse"
+                    } ${!record.office && "hidden"}`}
+                    compact
+                    bordered
+                  >
+                    <Card.Body className="flex-row items-center">
+                      <div className="flex-none">
+                        <svg
+                          className="w-16 h-16"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+                          ></path>
+                        </svg>
                       </div>
-                      <div className="flex">
-                        {court.district.name} ~ &nbsp;
-                        <span className="uppercase">{court.district.city}</span>
+                      <div className="flex-1 items-center gap-x-3">
+                        <div className="card-title">
+                          {court.name} |{" "}
+                          <span className="uppercase text-sm">
+                            {record.office.name} Secretaría
+                          </span>
+                        </div>
+                        <div className="flex">
+                          {court.district.name} ~ &nbsp;
+                          <span className="uppercase">
+                            {court.district.city}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </Card.Body>
-                </Card>
+                    </Card.Body>
+                  </Card>
+                )
               )}
             </div>
           </div>
+          {/* SECCION LATERAL: NOTAS */}
           <div className="w-1/3 flex flex-col gap-y-1.5">LOTRACIN</div>
         </div>
       ) : (

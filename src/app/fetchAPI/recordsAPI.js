@@ -20,10 +20,9 @@ export async function fetchGetRecord(id) {
   }
 }
 
-export async function fetchNewRecord(id) {
+export async function fetchNewRecord(req) {
   try {
-    const { data } = await axiosClient.post("/records", id);
-
+    const { data } = await axiosClient.post("/records", req);
     return data;
   } catch (error) {
     console.log(error);

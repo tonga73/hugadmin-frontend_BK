@@ -9,17 +9,15 @@ import {
 } from "../../app/fetchAPI/recordsAPI";
 
 import { setRecord, setRecordsStatus } from "../slices/records.slice";
+import { selectCourt, setCourt } from "../slices/courts.slice";
 
 import { getCourt } from "./courts.actions";
+import { useSelector } from "react-redux";
 
 export const getRecords = createAsyncThunk(
   "records/fetchGetRecords",
   async ({ rejectWithValue }) => {
     const response = await fetchGetRecords();
-
-    if (response.status === "error") {
-      return rejectWithValue(response.msg);
-    }
 
     return response.reverse();
   }
@@ -32,6 +30,8 @@ export const getRecord = createAsyncThunk(
 
     if (!!response.officeId) {
       dispatch(getCourt(response.office.courtId));
+    } else {
+      dispatch(setCourt({}));
     }
 
     dispatch(setRecord(response));
@@ -42,12 +42,6 @@ export const newRecord = createAsyncThunk(
   "records/fetchNewRecord",
   async (record, { rejectWithValue, dispatch }) => {
     const response = await fetchNewRecord(record);
-
-    if (response.status === "error") {
-      return rejectWithValue(response.msg);
-    }
-
-    console.log(response);
 
     dispatch(setRecordsStatus("created"));
     dispatch(setRecord(response));

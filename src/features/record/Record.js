@@ -125,7 +125,7 @@ export default function Record() {
                 )}
               </div>
               {/* CARD DE JUZGADO */}
-              {record.court !== undefined && (
+              {record.court !== undefined && record.court !== null && (
                 <Card
                   xyz="fade small"
                   className={`shadow-xl font-bold text-neutral-focus  xyz-in ${

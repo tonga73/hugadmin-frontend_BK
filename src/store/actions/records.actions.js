@@ -58,7 +58,7 @@ export const removeRecord = createAsyncThunk(
     }
 
     dispatch(setRecordsStatus("deleted"));
-    dispatch(setRecord(response));
+    dispatch(setRecord({}));
   }
 );
 

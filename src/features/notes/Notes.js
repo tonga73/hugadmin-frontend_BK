@@ -15,21 +15,40 @@ import { getRecord } from "../../store/actions/records.actions";
 export default function Notes({ record }) {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [val, setVal] = useState();
+  const [val, setVal] = useState("");
+
+  console.log("VAL", val);
 
   const notes = useSelector(selectNotes);
   const notesStatus = useSelector(selectNotesStatus);
 
+  const target = document.getElementById("new-note-input");
   const handleClick = () => {
-    const target = document.getElementById("new-note-input");
-    if (val !== undefined && val.length > 5) {
+    if (val.length >= 5) {
       dispatch(setNotesStatus("creating"));
       dispatch(newNote({ text: val, recordId: record.id }));
       target.value = "";
-    } else if (val === undefined) {
+      setVal("");
+      target.blur();
+    } else if (val === "") {
       target.focus();
     } else {
       return;
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && val.length >= 5) {
+      dispatch(setNotesStatus("creating"));
+      dispatch(newNote({ text: val, recordId: record.id }));
+      target.value = "";
+      setVal("");
+      target.blur();
+    } else if (e.key === "Escape") {
+      dispatch(setNotesStatus(""));
+      target.value = "";
+      setVal("");
+      target.blur();
     }
   };
 
@@ -71,6 +90,7 @@ export default function Notes({ record }) {
           type="text"
           defaultValue={val}
           onChange={(e) => setVal(e.target.value)}
+          onKeyUp={handleKeyPress}
         />
       </div>
       <div

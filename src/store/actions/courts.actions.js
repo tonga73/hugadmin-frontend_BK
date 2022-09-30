@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { fetchGetCourts, fetchGetCourt } from "../../app/fetchAPI/courtsAPI";
 
-import { setCourt, setCourtsStatus } from "../slices/courts.slice";
+import { setCourt, setCourts, setCourtsStatus } from "../slices/courts.slice";
 
 export const getCourts = createAsyncThunk(
   "courts/fetchGetCourts",

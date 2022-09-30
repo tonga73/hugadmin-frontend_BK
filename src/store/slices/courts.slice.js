@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { getRecord } from "../actions/records.actions";
 import { getCourts } from "../actions/courts.actions";
 
 const initialState = {
@@ -16,6 +17,9 @@ export const courtsSlice = createSlice({
     setCourt: (state, action) => {
       state.court = action.payload;
     },
+    setCourts: (state, action) => {
+      state.courts = action.payload;
+    },
     setCourtsStatus: (state, action) => {
       state.status = action.payload;
     },
@@ -30,8 +34,7 @@ export const courtsSlice = createSlice({
       })
       .addCase(getCourts.fulfilled, (state, action) => {
         state.status = "success";
-        state.courts = action.payload.slice().reverse();
-        state.filteredCourts = action.payload;
+        state.courts = action.payload;
       })
       .addCase(getCourts.rejected, (state, action) => {
         state.status = "error";
@@ -39,7 +42,7 @@ export const courtsSlice = createSlice({
   },
 });
 
-export const { setCourt, setCourtsStatus, setFilteredCourts } =
+export const { setCourt, setCourts, setCourtsStatus, setFilteredCourts } =
   courtsSlice.actions;
 
 export const selectCourts = (state) => state.courts.courts;

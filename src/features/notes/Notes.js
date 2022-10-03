@@ -17,8 +17,6 @@ export default function Notes({ record }) {
   const location = useLocation();
   const [val, setVal] = useState("");
 
-  console.log("VAL", val);
-
   const notes = useSelector(selectNotes);
   const notesStatus = useSelector(selectNotesStatus);
 
@@ -101,13 +99,19 @@ export default function Notes({ record }) {
           notes.map((note, index) => (
             <Card
               key={index}
-              className={`gap-y-1 group bg-base-100 xyz-in ${
+              className={`gap-y-1 group bg-base-100 hover:bg-base-300 cursor-default xyz-in ${
                 Number(location.pathname.replace("/record/", "")) !==
                   record.id && "xyz-out"
               }`}
               bordered={false}
+              onClick={() => navigator.clipboard.writeText(note.text)}
             >
-              <Card.Body className="text-xl">{note.text}</Card.Body>
+              <Card.Body className="text-xl">
+                <small className="px-1 py-0.5 opacity-30 top-1 absolute text-center text-xs invisible group-hover:visible">
+                  CLICK PARA COPIAR CONTENIDO
+                </small>
+                {note.text}
+              </Card.Body>
               <Card.Actions className="justify-end px-1 opacity-50 transition-opacity group-hover:opacity-100">
                 <Button
                   color="ghost"

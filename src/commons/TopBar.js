@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Modal, Button, Navbar, Alert } from "react-daisyui";
+import { Modal, Button, Navbar, Alert, Tooltip } from "react-daisyui";
 
 import Spinner from "./Spinner";
 
@@ -75,24 +75,24 @@ export function TopBar() {
       }`}
     >
       <Navbar.Start className="gap-x-1">
-        <div className="tooltip tooltip-bottom" data-tip="Estadísticas">
-          <Button variant="outline" color="info" size="sm" className="hidden">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-              ></path>
-            </svg>
-            Editar
-          </Button>
+        <Button variant="outline" color="info" size="sm" className="hidden">
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            ></path>
+          </svg>
+          Editar
+        </Button>
+        <Tooltip message="Estadísticas" color="secondary" position="right">
           <Button onClick={goToStats} shape="square" color="ghost" size="sm">
             <svg
               className="w-6 h-6"
@@ -109,7 +109,7 @@ export function TopBar() {
               ></path>
             </svg>
           </Button>
-        </div>
+        </Tooltip>
       </Navbar.Start>
       <Navbar.End className="gap-x-1">
         <Button variant="outline" color="ghost" size="sm">

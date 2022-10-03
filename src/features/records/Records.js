@@ -97,6 +97,7 @@ export default function Records() {
               <Tooltip
                 message={record.tracing.replace(/_/g, " ")}
                 className="tooltip-right z-10 flex items-center"
+                color="secondary"
               >
                 <Badge
                   onClick={() => {
@@ -104,7 +105,7 @@ export default function Records() {
                     navigate(`record/${record.id}`);
                   }}
                   animation="true"
-                  className={`cursor-pointer opacity-50 hover:opacity-100 ${generateTracingColors(
+                  className={`cursor-pointer hover:border-white transition-all ${generateTracingColors(
                     record.tracing
                   )}`}
                 />
@@ -115,7 +116,7 @@ export default function Records() {
                 color="ghost"
                 animation="true"
                 size="sm"
-                className="truncate inline-block text-left text-base flex-1 hover:-translate-x-5"
+                className="truncate inline-block text-left text-base flex-1 hover:-translate-x-5 transition-all"
               >
                 <span className="px-1.5">
                   {record.order} |{" "}

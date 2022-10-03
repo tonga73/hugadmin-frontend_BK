@@ -105,7 +105,7 @@ export default function Records() {
                     navigate(`record/${record.id}`);
                   }}
                   animation="true"
-                  className={`cursor-pointer hover:border-white transition-all ${generateTracingColors(
+                  className={`cursor-pointer hover:border-base-content transition-all ${generateTracingColors(
                     record.tracing
                   )}`}
                 />
